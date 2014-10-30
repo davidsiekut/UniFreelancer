@@ -1,0 +1,28 @@
+# Unity generated
+[Bb]uild/
+[Ll]ibrary/
+[Oo]bj/
+[Tt]emp/
+
+# Visual Studio and MonoDevelop generated
+ExportedObj/
+*.booproj
+*.csproj
+*.pidb
+*.sln
+*.suo
+*.svd
+*.unityproj
+*.user
+*.userprefs
+
+# OS generated
+ehthumbs.db
+Icon?
+Thumbs.db
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+*.swp

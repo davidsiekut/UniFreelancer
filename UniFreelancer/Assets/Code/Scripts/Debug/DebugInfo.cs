@@ -13,7 +13,8 @@ public class DebugInfo : MonoBehaviour
 	void Update()
     {
         string s = "";
-        s += "ForwardSpeed: " + Player.rigidbody.velocity.magnitude;
+        s += "Magnitude: " + Player.rigidbody.velocity.magnitude + "\n";
+        s += "Coords: " + Player.position + "\n";
         this.guiText.text = s;
 	}
 }

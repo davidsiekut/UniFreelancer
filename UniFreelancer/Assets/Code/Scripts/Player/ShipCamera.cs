@@ -3,12 +3,18 @@ using System.Collections;
 
 public class ShipCamera : MonoBehaviour
 {
-    public GameObject ship;
+    GameObject ship;
 
     float rotationXlimit = 120.0f;
     float rotationYlimit = 60.0f;
-    float followDistance = 5.0f;
+
+    float finalFollowDistance = 5.0f;
+    float currentFollowDistance = 5.0f;
+    float followDistanceMin = 4.0f;
+    float followDistanceNeutral = 5.0f;
+    float followDistanceMax = 6.0f;
     float followSpeed = 1.0f;
+
     Vector3 permaOffset = new Vector3(0f, 1.0f, 0f);
 
     Vector3 finalOffset = Vector3.zero;
@@ -18,7 +24,7 @@ public class ShipCamera : MonoBehaviour
     {
         ship = GameObject.FindGameObjectWithTag("Player");
 
-        transform.position = ship.transform.position + ship.transform.forward * -followDistance;
+        transform.position = ship.transform.position + ship.transform.forward * -currentFollowDistance;
         transform.rotation = ship.transform.rotation;
     }
 
@@ -40,7 +46,25 @@ public class ShipCamera : MonoBehaviour
         finalOffset = finalOffset + permaOffset;
         currentOffset = Vector3.Lerp(currentOffset, finalOffset, Time.deltaTime * followSpeed);
 
-        transform.position = ship.transform.position + ship.transform.forward * -followDistance + ship.transform.TransformDirection(currentOffset);
+        transform.position = ship.transform.position + ship.transform.forward * -currentFollowDistance + ship.transform.TransformDirection(currentOffset);
         transform.rotation = ship.transform.rotation;
+
+        // lerp camera in and out based on acceleration
+        currentFollowDistance = Mathf.Lerp(currentFollowDistance, finalFollowDistance, Time.deltaTime * followSpeed);
+    }
+
+    public void SetAccelerating()
+    {
+        finalFollowDistance = followDistanceMax;
+    }
+
+    public void SetDecelerating()
+    {
+        finalFollowDistance = followDistanceMin;
+    }
+
+    public void SetNeutral()
+    {
+        finalFollowDistance = followDistanceNeutral;
     }
 }

@@ -10,12 +10,12 @@ public class ShipCamera : MonoBehaviour
 
     float finalFollowDistance = 5.0f;
     float currentFollowDistance = 5.0f;
-    float followDistanceMin = 4.0f;
-    float followDistanceNeutral = 5.0f;
-    float followDistanceMax = 6.0f;
+    float followDistanceMin = 0.0f;
+    float followDistanceNeutral = 0.0f;
+    float followDistanceMax = 0.0f;
     float followSpeed = 1.0f;
 
-    Vector3 permaOffset = new Vector3(0f, 1.0f, 0f);
+    Vector3 permaOffset = new Vector3(0f, 0.1f, 0f);
 
     Vector3 finalOffset = Vector3.zero;
     Vector3 currentOffset = Vector3.zero;

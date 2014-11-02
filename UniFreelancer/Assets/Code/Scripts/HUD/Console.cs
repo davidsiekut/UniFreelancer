@@ -1,0 +1,113 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class Console : MonoBehaviour
+{
+    public GameObject Status;
+    public GameObject Speed;
+    public GameObject Crosshair1;
+    public GameObject Crosshair2;
+    public GameObject Target;
+
+    string[] buffer;
+    float fadeTimer;
+    float _fadeTimer = 3.0f;
+
+	void Start()
+    {
+        fadeTimer = _fadeTimer;
+
+        buffer = new string[10];
+
+        for (int i = 0; i < buffer.Length; i++)
+        {
+            buffer[i] = "";
+        }
+	}
+	
+	void Update()
+    {
+        if (fadeTimer < 0)
+        {
+            this.guiText.enabled = false;
+        }
+        else
+        {
+            fadeTimer -= Time.deltaTime;
+        }
+	}
+
+    public void SystemCheck()
+    {
+        Status.SetActive(false);
+        Speed.SetActive(false);
+        Crosshair1.SetActive(false);
+        Crosshair2.SetActive(false);
+        Target.SetActive(false);
+
+
+        StartCoroutine(CoSystemCheck());
+    }
+
+    IEnumerator CoSystemCheck()
+    {
+        List<string> l = new List<string>();
+        l.Add("swordfish iii status check initiated");
+        l.Add("vital system... online");
+        l.Add("mono system... online");
+        l.Add("weapon system... online");
+        l.Add("good luck, space cowboy!");
+
+        while (l.Count > 0)
+        {
+            this.Add(l[0]);
+            l.RemoveAt(0);
+
+            if (l.Count == 3)
+            {
+                Status.SetActive(true);
+            }
+            if (l.Count == 2)
+            {
+                Speed.SetActive(true);
+            }
+            if (l.Count == 1)
+            {
+                Crosshair1.SetActive(true);
+                Crosshair2.SetActive(true);
+                Target.SetActive(true);
+            }
+
+            yield return new WaitForSeconds(0f);
+        }
+
+        yield return null;
+    }
+
+    public void Add(string s)
+    {
+        for (int i = 1; i < buffer.Length; i++)
+        {
+            buffer[i - 1] = buffer[i];
+        }
+
+        buffer[buffer.Length - 1] = s;
+        refresh();
+    }
+
+    void refresh()
+    {
+        fadeTimer = _fadeTimer;
+        this.guiText.enabled = true;
+
+        string s = "";
+
+        for (int i = 0; i < buffer.Length; i++)
+        {
+            s += buffer[i] + "\n";
+        }
+
+        this.guiText.text = s;
+    }
+}

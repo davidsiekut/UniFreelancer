@@ -8,11 +8,11 @@ public class ShipInput : MonoBehaviour
     Camera cam;
     Vector3 velocity = Vector3.zero;
 
-    float rotationSpeed = 1.0f;
+    float rotationSpeed = 1.5f;
     float accelForce = 0.5f; // how fast the ships speed increases
     float velocityMin = 0.0f; // reverse thrust
-    float velocityMax = 500.0f;
-    float velocityShake = 100.0f;
+    float velocityMax = 200.0f;
+    float velocityShake = 160.0f;
     float sensitivity = 100.0f;
 
     WeaponSystem weapons;
@@ -31,7 +31,7 @@ public class ShipInput : MonoBehaviour
         Plane plane;
         //RaycastHit hit;
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && CanControl)
         {
             // http://docs.unity3d.com/ScriptReference/Plane.Raycast.html
             plane = new Plane(transform.forward, transform.position + transform.forward * sensitivity);
@@ -52,35 +52,32 @@ public class ShipInput : MonoBehaviour
         // interpolate rotation nicely
         this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
+        // move forward or backward
+        velocity.z += Input.GetAxis("Vertical") * accelForce * (CanControl ? 1 : 0);
+        velocity.z = Mathf.Clamp(velocity.z, velocityMin, velocityMax);
+
+        // move camera in/out
+        if (Input.GetAxis("Vertical") > 0 && velocity.magnitude < velocityMax)
+        {
+            //cam.GetComponent<ShipCamera>().SetAccelerating();
+        }
+        else if (Input.GetAxis("Vertical") < 0 && velocity.magnitude > velocityMin)
+        {
+            //cam.GetComponent<ShipCamera>().SetDecelerating();
+        }
+        else
+        {
+            //cam.GetComponent<ShipCamera>().SetNeutral();
+        }
+
+        // local to world space
+        this.rigidbody.velocity = this.transform.TransformDirection(velocity);
+
         if (CanControl)
         {
-            // move forward or backward
-            velocity.z += Input.GetAxis("Vertical") * accelForce;
-            velocity.z = Mathf.Clamp(velocity.z, velocityMin, velocityMax);
-
-            // move camera in/out
-            if (Input.GetAxis("Vertical") > 0 && velocity.magnitude < velocityMax)
-            {
-                cam.GetComponent<ShipCamera>().SetAccelerating();
-            }
-            else if (Input.GetAxis("Vertical") < 0 && velocity.magnitude > velocityMin)
-            {
-                cam.GetComponent<ShipCamera>().SetDecelerating();
-            }
-            else
-            {
-                cam.GetComponent<ShipCamera>().SetNeutral();
-            }
-
-            // local to world space
-            this.rigidbody.velocity = this.transform.TransformDirection(velocity);
-
             if (Input.GetMouseButton(1))
             {
-                //Vector3 hitPoint = ray.direction * fireDistance;
-                //Debug.DrawRay(ray.origin, hitPoint, Color.white);
-                //weapons.FirePrimary(hitPoint);
-                weapons.FirePrimary();
+                weapons.FirePrimary(ray);
             }
 
             if (Input.GetKey(KeyCode.E))
@@ -108,8 +105,8 @@ public class ShipInput : MonoBehaviour
 
     private Vector3 originPosition;
     private Quaternion originRotation;
-    public float shake_decay;
-    public float shake_intensity;
+    private float shake_decay;
+    private float shake_intensity;
 
     void LateUpdate()
     {

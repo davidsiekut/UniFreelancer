@@ -59,10 +59,10 @@ public class WeaponSystem : MonoBehaviour
         weapon.transform.localPosition = Vector3.zero;
     }
 
-    public void FirePrimary()
+    public void FirePrimary(Ray r)
     {
-        //WeaponSlot_ChassisLeft.transform.GetChild(0).GetComponent<Weapon>().Fire(target);
-        //WeaponSlot_ChassisRight.transform.GetChild(0).GetComponent<Weapon>().Fire(target);
+        WeaponSlot_ChassisLeft.transform.GetChild(0).GetComponent<Weapon>().FireGimbaled(r);
+        WeaponSlot_ChassisRight.transform.GetChild(0).GetComponent<Weapon>().FireGimbaled(r);
     }
 
     public void FireSlot(int i)
@@ -83,27 +83,5 @@ public class WeaponSystem : MonoBehaviour
         {
             WeaponSlot_WingRightLower.transform.GetChild(0).GetComponent<Weapon>().Fire();
         }
-
-        /*
-        if (WeaponSlot_WingLeftLower.transform.GetChild(0).GetComponent<Weapon>().Type == Weapon.WeaponType.Missile)
-        {
-            // requires a lock
-            GameObject target = GameController.TargetSystem.GetFrontLockTarget();
-            if (target != null)
-            {
-                WeaponSlot_WingLeftLower.transform.GetChild(0).GetComponent<Weapon>().Fire( = target;
-                WeaponSlot_WingLeftLower.transform.GetChild(0).GetComponent<SeekBehaviour>().target = target;
-            }
-        }
-        else
-        {
-            Debug.Log("Firing primary");
-            // fire non targeted through middle of screen
-            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            Debug.DrawRay(ray.origin, ray.direction * TEST_WEAPON_DISTANCE, Color.yellow);
-
-            WeaponSlot_WingLeftLower.transform.GetChild(0).GetComponent<Weapon>().Fire(ray.direction * TEST_WEAPON_DISTANCE);
-        }
-        */
     }
 }

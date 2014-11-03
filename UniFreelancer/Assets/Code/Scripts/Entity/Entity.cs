@@ -23,4 +23,10 @@ public class Entity : MonoBehaviour
             Destroy(gameObject);
         }
 	}
+
+    void OnCollisionEnter(Collision c)
+    {
+        this.rigidbody.AddExplosionForce(50f, this.transform.forward * 2f, 5f);
+        Debug.Log(this.name + " hit by " + c.transform.name);
+    }
 }

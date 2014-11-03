@@ -30,11 +30,17 @@ public class GameController : ScriptableObject
         PlayerHeat -= heatCooldownFactor * Time.deltaTime;
         PlayerHeat = Mathf.Clamp(PlayerHeat, 0.0f, playerHeatMax);
 
-        Debug.DrawRay(Player.transform.position, Player.transform.forward * 50.0f);
+        Debug.DrawRay(Player.transform.position, Player.transform.forward.normalized * 50.0f, Color.magenta);
 	}
 
     void load()
     {
+        GameObject l = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_SLAS")) as GameObject;
+        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(l, WeaponSystem.WeaponSlot.WeaponSlot_ChassisLeft);
+
+        GameObject r = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_LLAS")) as GameObject;
+        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(r, WeaponSystem.WeaponSlot.WeaponSlot_ChassisRight);
+
         GameObject w1 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_LLAS")) as GameObject;
         GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w1, WeaponSystem.WeaponSlot.WeaponSlot_WingLeftLower);
 

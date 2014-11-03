@@ -42,14 +42,32 @@ public class Weapon : MonoBehaviour
             Cooldown -= Time.deltaTime;
 	}
 
+    public void FireGimbaled(Ray r)
+    {
+        Vector3 initial = this.transform.position;
+        Vector3 final = GameController.Player.transform.position + r.direction * Range;
+
+        if (Cooldown < 0)
+        {
+            //Debug.DrawLine(initial, final.normalized * Range, Color.yellow);
+
+            GameObject g = GameObject.Instantiate(Projectile) as GameObject;
+            g.GetComponent<Laser>().Damage = Damage;
+            g.GetComponent<Laser>().Range = Range;
+            g.GetComponent<Laser>().Target = final;
+            g.GetComponent<Laser>().follow = this.transform;
+
+            GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
+            GameController.YoureGonnaBurnAlright(Heat);
+            Cooldown = _cooldown;
+        }
+    }
+
     public void Fire()
     {
         Vector3 initial = this.transform.position;
         Vector3 final = GameController.Player.transform.position + cam.transform.forward * Range;
-        Vector3 direction = final - initial;
-        //Debug.DrawLine(initial, final, Color.green);
-        //Debug.DrawRay(this.transform.position, direction * Range, Color.green);
-
+        //Vector3 direction = final - initial;
 
         if (Cooldown < 0)
         {
@@ -125,13 +143,8 @@ public class Weapon : MonoBehaviour
 
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
             g.transform.position = this.transform.parent.position;
-            //g.transform.forward = player.transform.forward;
-
             g.GetComponent<SeekingMissile>().target = target;
 
-            // current player velocity so projectile doesnt fall behind, with the target direction
-            //float moreForce = 2000 + Mathf.Sqrt(player.rigidbody.velocity.magnitude) / 10;
-            //g.GetComponent<Projectile>().Fire((player.rigidbody.velocity + target.transform.position.normalized) * moreForce);
             yield return new WaitForSeconds(FireRate);
         }
     }

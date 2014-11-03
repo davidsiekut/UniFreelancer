@@ -6,11 +6,13 @@ public class Laser : MonoBehaviour
     [HideInInspector]
     public Transform follow;
     [HideInInspector]
+    public Vector3 Target = Vector3.zero;
+    [HideInInspector]
     public float Range;
     [HideInInspector]
     public float Damage;
 
-    float damageCooldown = 0.1f; // DPS
+    float damageCooldown = 0.1f; // do damage every x seconds
 
 	void Start()
     {
@@ -18,7 +20,19 @@ public class Laser : MonoBehaviour
 	
 	void Update()
     {
-        Vector3 v = GameController.Player.transform.position + Camera.main.transform.forward * Range;
+        // change this for gimbaled laser
+        Vector3 v;
+
+        if (Target != Vector3.zero)
+        {
+            // fire gimbaled through mouse cursor
+            v = Target;
+        }
+        else
+        {
+            // fire straight ahead
+            v = GameController.Player.transform.position + Camera.main.transform.forward * Range;
+        }
 
         if (follow != null)
         {
@@ -33,6 +47,7 @@ public class Laser : MonoBehaviour
 
                 if (damageCooldown == 0.1f)
                 {
+                    Debug.Log(hit.transform.name + " hit by laser");
                     GameController.TryDoDamage(hit.collider.gameObject, Damage);
                 }
             }

@@ -8,14 +8,14 @@ public class ShipCamera : MonoBehaviour
     float rotationXlimit = 120.0f;
     float rotationYlimit = 60.0f;
 
-    float finalFollowDistance = 5.0f;
-    float currentFollowDistance = 5.0f;
+    float finalFollowDistance = 0.0f;
+    float currentFollowDistance = 0.0f;
     float followDistanceMin = 0.0f;
     float followDistanceNeutral = 0.0f;
     float followDistanceMax = 0.0f;
-    float followSpeed = 1.0f;
+    float followSpeed = 0.01f;
 
-    Vector3 permaOffset = new Vector3(0f, 0.1f, 0f);
+    Vector3 permaOffset = new Vector3(0f, 0f, 0f);
 
     Vector3 finalOffset = Vector3.zero;
     Vector3 currentOffset = Vector3.zero;
@@ -50,7 +50,7 @@ public class ShipCamera : MonoBehaviour
         transform.rotation = ship.transform.rotation;
 
         // lerp camera in and out based on acceleration
-        currentFollowDistance = Mathf.Lerp(currentFollowDistance, finalFollowDistance, Time.deltaTime * followSpeed);
+        //currentFollowDistance = Mathf.Lerp(currentFollowDistance, finalFollowDistance, Time.deltaTime * followSpeed);
     }
 
     public void SetAccelerating()

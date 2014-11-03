@@ -66,6 +66,11 @@ public class GameController : ScriptableObject
         if (g.GetComponent<Entity>() != null)
         {
             g.GetComponent<Entity>().Health -= damage;
+
+            GameObject p = GameObject.Instantiate(Resources.Load("Prefabs/HUD/DamagePopup")) as GameObject;
+            p.GetComponent<DamagePopup>().Target = g;
+            p.GetComponent<DamagePopup>().Damage = damage;
+
         }
     }
 

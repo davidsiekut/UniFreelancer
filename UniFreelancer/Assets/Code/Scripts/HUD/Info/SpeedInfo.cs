@@ -20,6 +20,6 @@ public class SpeedInfo : MonoBehaviour
         if ((int)f == 0)
             this.guiTexture.texture = null;
 
-        this.guiText.text = (int)f + "m/s";
+        this.guiText.text = (int)f + " m/s";
 	}
 }

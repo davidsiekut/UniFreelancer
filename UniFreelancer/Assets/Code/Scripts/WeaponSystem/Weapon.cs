@@ -17,6 +17,7 @@ public class Weapon : MonoBehaviour
     public string Name = "";
     public string ShortName = "";
     public WeaponType Type;
+    public float Damage; // for lasers, this is DPS
     public float Range;
     public float Heat;
     public GameObject Projectile;
@@ -48,48 +49,32 @@ public class Weapon : MonoBehaviour
 
         if (Cooldown < 0)
         {
-            if (Type == WeaponType.Laser)
+            if (Type == WeaponType.Laser || Type == WeaponType.PulseLaser)
             {
-                RaycastHit hit;
+                // moved into the laser script itself
+                /*RaycastHit hit;
                 if (Physics.Raycast(initial, direction, out hit, Range))
                 {
-                    Debug.DrawLine(initial, final, Color.green);
+                    //Debug.DrawLine(initial, final, Color.green);
                     final = hit.point;
 
-                    GameController.TryDoDamage(hit.collider.gameObject, 20);
-                }
+                    //GameController.TryDoDamage(hit.collider.gameObject, Damage);
+                }*/
 
                 GameObject g = GameObject.Instantiate(Projectile) as GameObject;
+                g.GetComponent<Laser>().Damage = Damage;
                 g.GetComponent<Laser>().Range = Range;
                 g.GetComponent<Laser>().follow = this.transform;
                 //g.GetComponent<LineRenderer>().SetPosition(0, initial);
                 //g.GetComponent<LineRenderer>().SetPosition(1, final);
 
-                GameController.YoureGonnaBurnAlright(Heat);
-                Cooldown = _cooldown;
-            }
-            else if (Type == WeaponType.PulseLaser)
-            {
-                RaycastHit hit;
-                if (Physics.Raycast(initial, direction, out hit, Range))
-                {
-                    Debug.DrawLine(initial, final, Color.green);
-                    // TODO not sure if commenting this makes beam go through
-                    //final = hit.point;
-
-                    GameController.TryDoDamage(hit.collider.gameObject, 20);
-                }
-
-                GameObject g = GameObject.Instantiate(Projectile) as GameObject;
-                g.GetComponent<LineRenderer>().SetPosition(0, initial);
-                g.GetComponent<LineRenderer>().SetPosition(1, final);
-
+                GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
                 GameController.YoureGonnaBurnAlright(Heat);
                 Cooldown = _cooldown;
             }
             else if (Type == WeaponType.SRMissile)
             {
-
+                GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
                 GameController.YoureGonnaBurnAlright(Heat);
                 Cooldown = _cooldown;
             }
@@ -98,10 +83,9 @@ public class Weapon : MonoBehaviour
                 GameObject target = GameController.TargetSystem.GetFrontLockTarget();
                 if (target != null)
                 {
-                    StartCoroutine(FireMany(target));
-
-                    GameController.YoureGonnaBurnAlright(Heat);
                     Cooldown = _cooldown;
+
+                    StartCoroutine(FireMany(target));
                 }
             }
         }
@@ -109,9 +93,11 @@ public class Weapon : MonoBehaviour
 
     IEnumerator FireMany(GameObject target)
     {
-
         for (int i = 0; i < Missiles; i++)
         {
+            GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
+            GameController.YoureGonnaBurnAlright(Heat);
+
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
             g.transform.position = this.transform.parent.position;
             //g.transform.forward = player.transform.forward;
@@ -128,7 +114,7 @@ public class Weapon : MonoBehaviour
     public float GetCooldownPercent()
     {
         if (Type == WeaponType.PulseLaser)
-            return 1f;
+            return 0f;
 
         return Cooldown / _cooldown;
     }

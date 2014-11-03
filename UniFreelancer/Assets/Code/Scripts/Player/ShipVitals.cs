@@ -3,6 +3,9 @@ using System.Collections;
 
 public class ShipVitals : MonoBehaviour
 {
+    float shield;
+    float health;
+
 	void Start()
     {
 	}

@@ -5,9 +5,12 @@ using System.Collections.Generic;
 public class Console : MonoBehaviour
 {
     public GameObject Status;
+    public GameObject Heat;
     public GameObject Speed;
     public GameObject Crosshair;
+    public GameObject CrosshairBounds;
     public GameObject Target;
+    public GameObject Hardpoints;
 
     string[] buffer;
     float fadeTimer;
@@ -40,10 +43,12 @@ public class Console : MonoBehaviour
     public void SystemCheck()
     {
         Status.SetActive(false);
+        Heat.SetActive(false);
         Speed.SetActive(false);
         Crosshair.SetActive(false);
+        CrosshairBounds.SetActive(false);
         Target.SetActive(false);
-
+        Hardpoints.SetActive(false);
 
         StartCoroutine(CoSystemCheck());
     }
@@ -69,14 +74,18 @@ public class Console : MonoBehaviour
             if (l.Count == 2)
             {
                 Speed.SetActive(true);
+                Heat.SetActive(true);
             }
             if (l.Count == 1)
             {
                 Crosshair.SetActive(true);
+                CrosshairBounds.SetActive(true);
                 Target.SetActive(true);
+                Hardpoints.SetActive(true);
+                GameController.Player.GetComponent<ShipInput>().CanControl = true;
             }
 
-            yield return new WaitForSeconds(0f);
+            yield return new WaitForSeconds(1f);
         }
 
         yield return null;

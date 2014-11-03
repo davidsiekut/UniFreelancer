@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ShipInput : MonoBehaviour
 {
+    public bool CanControl = false;
+
     Camera cam;
     Vector3 velocity = Vector3.zero;
 
@@ -50,55 +52,57 @@ public class ShipInput : MonoBehaviour
         // interpolate rotation nicely
         this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
-        // move forward or backward
-        velocity.z += Input.GetAxis("Vertical") * accelForce;
-        velocity.z = Mathf.Clamp(velocity.z, velocityMin, velocityMax);
+        if (CanControl)
+        {
+            // move forward or backward
+            velocity.z += Input.GetAxis("Vertical") * accelForce;
+            velocity.z = Mathf.Clamp(velocity.z, velocityMin, velocityMax);
 
-        // move camera in/out
-        if (Input.GetAxis("Vertical") > 0 && velocity.magnitude < velocityMax)
-        {
-            cam.GetComponent<ShipCamera>().SetAccelerating();
-        }
-        else if (Input.GetAxis("Vertical") < 0 && velocity.magnitude > velocityMin)
-        {
-            cam.GetComponent<ShipCamera>().SetDecelerating();
-        }
-        else
-        {
-            cam.GetComponent<ShipCamera>().SetNeutral();
-        }
+            // move camera in/out
+            if (Input.GetAxis("Vertical") > 0 && velocity.magnitude < velocityMax)
+            {
+                cam.GetComponent<ShipCamera>().SetAccelerating();
+            }
+            else if (Input.GetAxis("Vertical") < 0 && velocity.magnitude > velocityMin)
+            {
+                cam.GetComponent<ShipCamera>().SetDecelerating();
+            }
+            else
+            {
+                cam.GetComponent<ShipCamera>().SetNeutral();
+            }
 
-        // local to world space
-        this.rigidbody.velocity = this.transform.TransformDirection(velocity);
+            // local to world space
+            this.rigidbody.velocity = this.transform.TransformDirection(velocity);
 
-        if (Input.GetMouseButton(1))
-        {
-            //Vector3 hitPoint = ray.direction * fireDistance;
-            //Debug.DrawRay(ray.origin, hitPoint, Color.white);
-            //weapons.FirePrimary(hitPoint);
-            weapons.FirePrimary();
-        }
+            if (Input.GetMouseButton(1))
+            {
+                //Vector3 hitPoint = ray.direction * fireDistance;
+                //Debug.DrawRay(ray.origin, hitPoint, Color.white);
+                //weapons.FirePrimary(hitPoint);
+                weapons.FirePrimary();
+            }
 
-        if (Input.GetKey(KeyCode.E))
-        {
-            GameController.TargetSystem.RequestLock();
-        }
-
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            weapons.FireSlot(1);
-        }
-        else if (Input.GetKey(KeyCode.Alpha2))
-        {
-            weapons.FireSlot(2);
-        }
-        else if (Input.GetKey(KeyCode.Alpha3))
-        {
-            weapons.FireSlot(3);
-        }
-        else if (Input.GetKey(KeyCode.Alpha4))
-        {
-            weapons.FireSlot(4);
+            if (Input.GetKey(KeyCode.E))
+            {
+                GameController.TargetSystem.RequestLock();
+            }
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                weapons.FireSlot(1);
+            }
+            if (Input.GetKey(KeyCode.Alpha2))
+            {
+                weapons.FireSlot(2);
+            }
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                weapons.FireSlot(3);
+            }
+            if (Input.GetKey(KeyCode.Alpha4))
+            {
+                weapons.FireSlot(4);
+            }
         }
     }
 

@@ -28,6 +28,37 @@ public class WeaponSystem : MonoBehaviour
     {
 	}
 
+    public void Equip(GameObject weapon, WeaponSlot slot)
+    {
+        if (slot == WeaponSlot.WeaponSlot_ChassisLeft)
+        {
+            weapon.transform.parent = WeaponSlot_ChassisLeft.transform;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_ChassisRight)
+        {
+            weapon.transform.parent = WeaponSlot_ChassisRight.transform;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_WingLeftLower)
+        {
+            weapon.transform.parent = WeaponSlot_WingLeftLower.transform;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_WingLeftUpper)
+        {
+            weapon.transform.parent = WeaponSlot_WingLeftUpper.transform;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_WingRightLower)
+        {
+            weapon.transform.parent = WeaponSlot_WingRightLower.transform;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_WingRightUpper)
+        {
+            weapon.transform.parent = WeaponSlot_WingRightUpper.transform;
+        }
+
+        weapon.transform.SetAsFirstSibling();
+        weapon.transform.localPosition = Vector3.zero;
+    }
+
     public void FirePrimary()
     {
         //WeaponSlot_ChassisLeft.transform.GetChild(0).GetComponent<Weapon>().Fire(target);

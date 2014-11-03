@@ -12,6 +12,7 @@ public class GameController : ScriptableObject
 
     public static float PlayerHeat;
     static float playerHeatMax = 300.0f;
+    static float heatCooldownFactor = 3f;
 
 	void Start()
     {
@@ -26,12 +27,25 @@ public class GameController : ScriptableObject
 	
 	void FixedUpdate()
     {
-        PlayerHeat -= 10f * Time.deltaTime;
+        PlayerHeat -= heatCooldownFactor * Time.deltaTime;
         PlayerHeat = Mathf.Clamp(PlayerHeat, 0.0f, playerHeatMax);
 	}
 
     void load()
     {
+        GameObject w1 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_LLAS")) as GameObject;
+        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w1, WeaponSystem.WeaponSlot.WeaponSlot_WingLeftLower);
+
+        GameObject w2 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_ERLLAS")) as GameObject;
+        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w2, WeaponSystem.WeaponSlot.WeaponSlot_WingLeftUpper);
+
+        GameObject w3 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MLAS")) as GameObject;
+        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w3, WeaponSystem.WeaponSlot.WeaponSlot_WingRightLower);
+
+        GameObject w4 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MPLAS")) as GameObject;
+        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w4, WeaponSystem.WeaponSlot.WeaponSlot_WingRightUpper);
+
+
         Player = GameObject.FindWithTag("Player");
         HUDSound = GameObject.FindWithTag("HUD").audio;
 

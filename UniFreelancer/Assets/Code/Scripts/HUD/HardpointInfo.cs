@@ -8,11 +8,12 @@ public class HardpointInfo : MonoBehaviour
 
 	void Start()
     {
-        weapon = Slot.transform.GetChild(0).GetComponent<Weapon>();
+
 	}
 
 	void Update()
     {
+        weapon = Slot.transform.GetChild(0).GetComponent<Weapon>();
         if (weapon != null)
         {
             this.guiText.text = weapon.Name;

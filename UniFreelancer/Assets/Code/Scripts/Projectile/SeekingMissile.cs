@@ -4,16 +4,10 @@ using System.Collections;
 public class SeekingMissile: MonoBehaviour
 {
     public GameObject target;
-
     float awake = 0.0f;
-
     float speed = 10.0f;
-
-
-    float homingSensitivity = 0.1f;
-
-    public GameObject Particle;
-    public AudioClip Explosion;
+    float homingSensitivity = 0.4f;
+    public GameObject Explosion;
 
 	void Start()
     {
@@ -39,18 +33,17 @@ public class SeekingMissile: MonoBehaviour
         Debug.DrawRay(this.transform.position, this.transform.forward * 5.0f);
     }
 
-    void OnCollisionEnter(Collision collision) {
-        if (collision.transform.tag != "Player")
-        {
-            this.audio.PlayOneShot(Explosion);
-            ContactPoint contact = collision.contacts[0];
-            Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-            Vector3 pos = contact.point;
+    void OnCollisionEnter(Collision collision)
+    {
+        //ContactPoint contact = collision.contacts[0];
+        //Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
+        //Vector3 pos = contact.point;
 
-            GameObject g = GameObject.Instantiate(Particle) as GameObject;
-            g.transform.position = this.transform.position;
+        GameController.TryDoDamage(collision.gameObject, 10);
 
-            Destroy(gameObject);
-        }
+        GameObject g = GameObject.Instantiate(Explosion) as GameObject;
+        g.transform.position = this.transform.position;
+
+        Destroy(gameObject);
     }
 }

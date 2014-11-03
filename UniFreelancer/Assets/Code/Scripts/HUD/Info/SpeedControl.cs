@@ -13,6 +13,6 @@ public class SpeedControl : BaseControl
 
 	void Update()
     {
-        base.Refresh(ship.rigidbody.velocity.magnitude, ship.GetComponent<ShipInput>().GetVelocityMax(), "m/s");
+        //base.Refresh(ship.rigidbody.velocity.magnitude, ship.GetComponent<ShipInput>().GetVelocityMax(), "m/s");
 	}
 }

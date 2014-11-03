@@ -10,6 +10,9 @@ public class GameController : ScriptableObject
     public static Console Console;
     public static TargetSystem TargetSystem;
 
+    public static float PlayerHeat;
+    static float playerHeatMax = 300.0f;
+
 	void Start()
     {
         Console = GameObject.Find("Console").GetComponent<Console>();
@@ -21,8 +24,10 @@ public class GameController : ScriptableObject
         Console.SystemCheck();
 	}
 	
-	void Update()
+	void FixedUpdate()
     {
+        PlayerHeat -= 10f * Time.deltaTime;
+        PlayerHeat = Mathf.Clamp(PlayerHeat, 0.0f, playerHeatMax);
 	}
 
     void load()
@@ -40,5 +45,24 @@ public class GameController : ScriptableObject
             g.transform.position = new Vector3(x, y, z);
             Entities.Add(g);
         }
+    }
+
+    public static void TryDoDamage(GameObject g, float damage)
+    {
+        if (g.GetComponent<Entity>() != null)
+        {
+            g.GetComponent<Entity>().Health -= damage;
+        }
+    }
+
+    public static void YoureGonnaBurnAlright(float heat)
+    {
+        PlayerHeat += heat;
+        PlayerHeat = Mathf.Clamp(PlayerHeat, 0.0f, playerHeatMax);
+    }
+
+    public static float GetPlayerHeatPercent()
+    {
+        return PlayerHeat / playerHeatMax;
     }
 }

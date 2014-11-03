@@ -12,7 +12,6 @@ public class ShipInput : MonoBehaviour
     float velocityMax = 200.0f;
     float velocityShake = 100.0f;
     float sensitivity = 100.0f;
-    //float fireDistance = 100.0f;
 
     WeaponSystem weapons;
 
@@ -131,8 +130,8 @@ public class ShipInput : MonoBehaviour
         }
     }
 
-    public float GetVelocityMax()
+    public float GetVelocityPercentage()
     {
-        return velocityMax;
+        return this.velocity.magnitude / velocityMax;
     }
 }

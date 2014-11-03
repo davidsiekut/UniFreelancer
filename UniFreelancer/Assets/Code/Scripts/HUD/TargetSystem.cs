@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class TargetSystem : MonoBehaviour
 {
-    const float MAX_DETECT_RANGE = 1000.0f;
+    const float MAX_DETECT_RANGE = 3000.0f;
     const float CLOSE_DETECT_RANGE = 500.0f;
 
     public GameObject LockPrefab;
@@ -29,7 +29,7 @@ public class TargetSystem : MonoBehaviour
     GameObject frontTarget;
     bool frontLockingOn = false;
     float frontTargetBuffer;
-    float _frontTargetBuffer = 8.0f; // time to lose lock
+    float _frontTargetBuffer = 5.0f; // time to lose lock
     bool frontLockReady = false;
 
     Camera cam;
@@ -97,6 +97,9 @@ public class TargetSystem : MonoBehaviour
 
     void resetTargetTransform()
     {
+        frontLockReady = false;
+        frontTarget = null;
+
         StopAllCoroutines();
 
         LockPrefab.transform.GetChild(0).renderer.enabled = false;
@@ -170,8 +173,6 @@ public class TargetSystem : MonoBehaviour
         frontTargetBuffer -= Time.deltaTime;
         if (frontTargetBuffer < 0)
         {
-            frontLockReady = false;
-            frontTarget = null;
             resetTargetTransform();
         }
     }
@@ -196,7 +197,7 @@ public class TargetSystem : MonoBehaviour
 
         foreach (GameObject g in GameController.Entities)
         {
-            if (g.tag != "Player" && Vector3.Distance(g.transform.position, GameController.Player.transform.position) < MAX_DETECT_RANGE)
+            if (g != null && g.tag != "Player" && Vector3.Distance(g.transform.position, GameController.Player.transform.position) < MAX_DETECT_RANGE)
             {
                 Vector3 screen = cam.WorldToScreenPoint(g.transform.position);
 
@@ -217,7 +218,7 @@ public class TargetSystem : MonoBehaviour
                     }
 
                     reticle.transform.localPosition = cam.ScreenToViewportPoint(screen);
-                    reticle.guiText.text = (int)Vector3.Distance(g.transform.position, GameController.Player.transform.position) + "m";
+                    reticle.guiText.text = (int)Vector3.Distance(g.transform.position, GameController.Player.transform.position) + " m";
                 }
                 else
                 {

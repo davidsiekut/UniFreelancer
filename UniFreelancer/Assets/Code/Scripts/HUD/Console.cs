@@ -6,8 +6,7 @@ public class Console : MonoBehaviour
 {
     public GameObject Status;
     public GameObject Speed;
-    public GameObject Crosshair1;
-    public GameObject Crosshair2;
+    public GameObject Crosshair;
     public GameObject Target;
 
     string[] buffer;
@@ -42,8 +41,7 @@ public class Console : MonoBehaviour
     {
         Status.SetActive(false);
         Speed.SetActive(false);
-        Crosshair1.SetActive(false);
-        Crosshair2.SetActive(false);
+        Crosshair.SetActive(false);
         Target.SetActive(false);
 
 
@@ -74,8 +72,7 @@ public class Console : MonoBehaviour
             }
             if (l.Count == 1)
             {
-                Crosshair1.SetActive(true);
-                Crosshair2.SetActive(true);
+                Crosshair.SetActive(true);
                 Target.SetActive(true);
             }
 

@@ -11,7 +11,7 @@ public class SinMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Vector3 pos = this.transform.position;
-        pos.x = Mathf.PingPong(Time.time * 10f, 500000f);
+        pos.x = Mathf.PingPong(Time.time * 50f, 500000f);
         this.transform.position = pos;
 
         /*

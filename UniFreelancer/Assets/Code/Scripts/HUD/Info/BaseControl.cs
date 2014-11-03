@@ -30,7 +30,7 @@ public abstract class BaseControl : MonoBehaviour
 
     protected void Refresh(float f, float max, string s)
     {
-        Text.text = (int) f + s;
+       Text.text = (int) f + s;
 
         if (f <= 0)
         {

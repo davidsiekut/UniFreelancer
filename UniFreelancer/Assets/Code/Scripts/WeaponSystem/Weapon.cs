@@ -18,6 +18,7 @@ public class Weapon : MonoBehaviour
     public string ShortName = "";
     public WeaponType Type;
     public float Range;
+    public float Heat;
     public GameObject Projectile;
     public int Missiles;
     public AudioClip Shoot;
@@ -54,11 +55,18 @@ public class Weapon : MonoBehaviour
                 {
                     Debug.DrawLine(initial, final, Color.green);
                     final = hit.point;
+
+                    GameController.TryDoDamage(hit.collider.gameObject, 20);
                 }
 
                 GameObject g = GameObject.Instantiate(Projectile) as GameObject;
-                g.GetComponent<LineRenderer>().SetPosition(0, initial);
-                g.GetComponent<LineRenderer>().SetPosition(1, final);
+                g.GetComponent<Laser>().Range = Range;
+                g.GetComponent<Laser>().follow = this.transform;
+                //g.GetComponent<LineRenderer>().SetPosition(0, initial);
+                //g.GetComponent<LineRenderer>().SetPosition(1, final);
+
+                GameController.YoureGonnaBurnAlright(Heat);
+                Cooldown = _cooldown;
             }
             else if (Type == WeaponType.PulseLaser)
             {
@@ -66,45 +74,42 @@ public class Weapon : MonoBehaviour
                 if (Physics.Raycast(initial, direction, out hit, Range))
                 {
                     Debug.DrawLine(initial, final, Color.green);
-                    //final = hit.collider.transform.position;
+                    // TODO not sure if commenting this makes beam go through
+                    //final = hit.point;
+
+                    GameController.TryDoDamage(hit.collider.gameObject, 20);
                 }
 
-                float SEGMENTLENGTH = 1.0f;
-                float GAPLENGTH = 1.0f;
-                float totallength = SEGMENTLENGTH + GAPLENGTH;
-                int NUMSEGMENTS = (int)(Range / totallength);
+                GameObject g = GameObject.Instantiate(Projectile) as GameObject;
+                g.GetComponent<LineRenderer>().SetPosition(0, initial);
+                g.GetComponent<LineRenderer>().SetPosition(1, final);
 
-                Vector3 current = initial;
-
-                for (int i = 0; i < NUMSEGMENTS; i++)
-                {
-                    GameObject g = GameObject.Instantiate(Projectile) as GameObject;
-
-                    g.GetComponent<LineRenderer>().SetPosition(0, current);
-                    g.GetComponent<LineRenderer>().SetPosition(1, Vector3.MoveTowards(current, final, SEGMENTLENGTH));
-
-                    current = Vector3.MoveTowards(current, final, totallength);
-                }
+                GameController.YoureGonnaBurnAlright(Heat);
+                Cooldown = _cooldown;
             }
             else if (Type == WeaponType.SRMissile)
             {
 
+                GameController.YoureGonnaBurnAlright(Heat);
+                Cooldown = _cooldown;
             }
             else if (Type == WeaponType.LRMissile)
             {
-                if (GameController.TargetSystem.GetFrontLockTarget() != null)
+                GameObject target = GameController.TargetSystem.GetFrontLockTarget();
+                if (target != null)
                 {
-                    StartCoroutine(FireMany());
+                    StartCoroutine(FireMany(target));
+
+                    GameController.YoureGonnaBurnAlright(Heat);
+                    Cooldown = _cooldown;
                 }
             }
-
-            Cooldown = _cooldown;
         }
     }
 
-    IEnumerator FireMany()
+    IEnumerator FireMany(GameObject target)
     {
-        GameObject target = GameController.TargetSystem.GetFrontLockTarget();
+
         for (int i = 0; i < Missiles; i++)
         {
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
@@ -118,5 +123,13 @@ public class Weapon : MonoBehaviour
             //g.GetComponent<Projectile>().Fire((player.rigidbody.velocity + target.transform.position.normalized) * moreForce);
             yield return new WaitForSeconds(0.3f);
         }
+    }
+
+    public float GetCooldownPercent()
+    {
+        if (Type == WeaponType.PulseLaser)
+            return 1f;
+
+        return Cooldown / _cooldown;
     }
 }

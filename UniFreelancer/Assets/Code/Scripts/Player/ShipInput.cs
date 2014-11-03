@@ -11,7 +11,7 @@ public class ShipInput : MonoBehaviour
     float rotationSpeed = 1.0f;
     float accelForce = 0.5f; // how fast the ships speed increases
     float velocityMin = 0.0f; // reverse thrust
-    float velocityMax = 200.0f;
+    float velocityMax = 500.0f;
     float velocityShake = 100.0f;
     float sensitivity = 100.0f;
 

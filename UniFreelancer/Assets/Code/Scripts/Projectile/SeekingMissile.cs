@@ -4,6 +4,7 @@ using System.Collections;
 public class SeekingMissile: MonoBehaviour
 {
     public GameObject target;
+    public float Damage;
     float awake = 0.0f;
     float speed = 10.0f;
     float homingSensitivity = 0.4f;
@@ -39,7 +40,7 @@ public class SeekingMissile: MonoBehaviour
         //Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
         //Vector3 pos = contact.point;
 
-        GameController.TryDoDamage(collision.gameObject, 10);
+        GameController.TryDoDamage(collision.gameObject, Damage);
 
         GameObject g = GameObject.Instantiate(Explosion) as GameObject;
         g.transform.position = this.transform.position;

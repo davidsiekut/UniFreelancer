@@ -22,6 +22,7 @@ public class Weapon : MonoBehaviour
     public float Heat;
     public GameObject Projectile;
     public int Missiles;
+    public float FireRate;
     public AudioClip Shoot;
 
     public float Cooldown = 1.0f;
@@ -46,6 +47,9 @@ public class Weapon : MonoBehaviour
         Vector3 initial = this.transform.position;
         Vector3 final = GameController.Player.transform.position + cam.transform.forward * Range;
         Vector3 direction = final - initial;
+        //Debug.DrawLine(initial, final, Color.green);
+        //Debug.DrawRay(this.transform.position, direction * Range, Color.green);
+
 
         if (Cooldown < 0)
         {
@@ -74,8 +78,7 @@ public class Weapon : MonoBehaviour
             }
             else if (Type == WeaponType.SRMissile)
             {
-                GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
-                GameController.YoureGonnaBurnAlright(Heat);
+                StartCoroutine(FireMany());
                 Cooldown = _cooldown;
             }
             else if (Type == WeaponType.LRMissile)
@@ -83,14 +86,36 @@ public class Weapon : MonoBehaviour
                 GameObject target = GameController.TargetSystem.GetFrontLockTarget();
                 if (target != null)
                 {
-                    Cooldown = _cooldown;
-
                     StartCoroutine(FireMany(target));
+                    Cooldown = _cooldown;
                 }
             }
         }
     }
 
+    // shoot missiles in a direction, no lock required
+    IEnumerator FireMany()
+    {
+        for (int i = 0; i < Missiles; i++)
+        {
+            GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
+            GameController.YoureGonnaBurnAlright(Heat);
+
+            GameObject g = GameObject.Instantiate(Projectile) as GameObject;
+            g.transform.position = this.transform.parent.position;
+
+            Vector3 initial = this.transform.position;
+            Vector3 final = GameController.Player.transform.position + cam.transform.forward * Range;
+            Vector3 direction = final - initial;
+
+            g.GetComponent<Missile>().Damage = Damage;
+            g.GetComponent<Missile>().Direction = direction;
+
+            yield return new WaitForSeconds(FireRate);
+        }
+    }
+
+    // shoot missiles that lock in on a target
     IEnumerator FireMany(GameObject target)
     {
         for (int i = 0; i < Missiles; i++)
@@ -107,7 +132,7 @@ public class Weapon : MonoBehaviour
             // current player velocity so projectile doesnt fall behind, with the target direction
             //float moreForce = 2000 + Mathf.Sqrt(player.rigidbody.velocity.magnitude) / 10;
             //g.GetComponent<Projectile>().Fire((player.rigidbody.velocity + target.transform.position.normalized) * moreForce);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(FireRate);
         }
     }
 

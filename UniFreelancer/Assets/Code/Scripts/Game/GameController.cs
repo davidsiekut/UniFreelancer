@@ -29,6 +29,8 @@ public class GameController : ScriptableObject
     {
         PlayerHeat -= heatCooldownFactor * Time.deltaTime;
         PlayerHeat = Mathf.Clamp(PlayerHeat, 0.0f, playerHeatMax);
+
+        Debug.DrawRay(Player.transform.position, Player.transform.forward * 50.0f);
 	}
 
     void load()
@@ -42,7 +44,7 @@ public class GameController : ScriptableObject
         GameObject w3 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MLAS")) as GameObject;
         GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w3, WeaponSystem.WeaponSlot.WeaponSlot_WingRightLower);
 
-        GameObject w4 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MPLAS")) as GameObject;
+        GameObject w4 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Missiles/Weapon_SRM6")) as GameObject;
         GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w4, WeaponSystem.WeaponSlot.WeaponSlot_WingRightUpper);
 
 

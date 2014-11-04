@@ -59,6 +59,43 @@ public class WeaponSystem : MonoBehaviour
         weapon.transform.localPosition = Vector3.zero;
     }
 
+    public GameObject Unequip(WeaponSlot slot)
+    {
+        GameObject g = null;
+        if (slot == WeaponSlot.WeaponSlot_ChassisLeft)
+        {
+            g = WeaponSlot_ChassisLeft.transform.GetChild(0).gameObject;
+            WeaponSlot_ChassisLeft.transform.GetChild(0).parent = null;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_ChassisRight)
+        {
+            g = WeaponSlot_ChassisRight.transform.GetChild(0).gameObject;
+            WeaponSlot_ChassisRight.transform.GetChild(0).parent = null;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_WingLeftLower)
+        {
+            g = WeaponSlot_WingLeftLower.transform.GetChild(0).gameObject;
+            WeaponSlot_WingLeftLower.transform.GetChild(0).parent = null;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_WingLeftUpper)
+        {
+            g = WeaponSlot_WingLeftUpper.transform.GetChild(0).gameObject;
+            WeaponSlot_WingLeftUpper.transform.GetChild(0).parent = null;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_WingRightLower)
+        {
+            g = WeaponSlot_WingRightLower.transform.GetChild(0).gameObject;
+            WeaponSlot_WingRightLower.transform.GetChild(0).parent = null;
+        }
+        else if (slot == WeaponSlot.WeaponSlot_WingRightUpper)
+        {
+            g = WeaponSlot_WingRightUpper.transform.GetChild(0).gameObject;
+            WeaponSlot_WingRightUpper.transform.GetChild(0).parent = null;
+        }
+
+        return g;
+    }
+
     public void FirePrimary(Ray r)
     {
         WeaponSlot_ChassisLeft.transform.GetChild(0).GetComponent<Weapon>().FireGimbaled(r);

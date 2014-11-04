@@ -9,16 +9,17 @@ public class GameController : ScriptableObject
     public static AudioSource HUDSound;
     public static Console Console;
     public static TargetSystem TargetSystem;
+    public static WeaponSystem WeaponSystem;
 
     public static float PlayerHeat;
-    static float playerHeatMax = 300.0f;
-    static float heatCooldownFactor = 3f;
+    static float playerHeatMax = 200.0f;
+    static float heatCooldownFactor = 7f;
 
 	void Start()
     {
         Console = GameObject.Find("Console").GetComponent<Console>();
         TargetSystem = GameObject.Find("TargetSystem").GetComponent<TargetSystem>();
-
+        WeaponSystem = GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>();
         Entities = new List<GameObject>();
         load();
 
@@ -35,50 +36,46 @@ public class GameController : ScriptableObject
 
     void load()
     {
-        GameObject l = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_SLAS")) as GameObject;
-        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(l, WeaponSystem.WeaponSlot.WeaponSlot_ChassisLeft);
+        GameObject l = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MLAS")) as GameObject;
+        WeaponSystem.Equip(l, WeaponSystem.WeaponSlot.WeaponSlot_ChassisLeft);
 
-        GameObject r = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_LLAS")) as GameObject;
-        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(r, WeaponSystem.WeaponSlot.WeaponSlot_ChassisRight);
+        GameObject r = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MPLAS")) as GameObject;
+        WeaponSystem.Equip(r, WeaponSystem.WeaponSlot.WeaponSlot_ChassisRight);
 
-        GameObject w1 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_LLAS")) as GameObject;
-        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w1, WeaponSystem.WeaponSlot.WeaponSlot_WingLeftLower);
+        GameObject w1 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_PPC")) as GameObject;
+        WeaponSystem.Equip(w1, WeaponSystem.WeaponSlot.WeaponSlot_WingLeftLower);
 
         GameObject w2 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_ERLLAS")) as GameObject;
-        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w2, WeaponSystem.WeaponSlot.WeaponSlot_WingLeftUpper);
+        WeaponSystem.Equip(w2, WeaponSystem.WeaponSlot.WeaponSlot_WingLeftUpper);
 
-        GameObject w3 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MLAS")) as GameObject;
-        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w3, WeaponSystem.WeaponSlot.WeaponSlot_WingRightLower);
+        GameObject w3 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Missiles/Weapon_LRM5")) as GameObject;
+        WeaponSystem.Equip(w3, WeaponSystem.WeaponSlot.WeaponSlot_WingRightLower);
 
         GameObject w4 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Missiles/Weapon_SRM6")) as GameObject;
-        GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>().Equip(w4, WeaponSystem.WeaponSlot.WeaponSlot_WingRightUpper);
-
+        WeaponSystem.Equip(w4, WeaponSystem.WeaponSlot.WeaponSlot_WingRightUpper);
 
         Player = GameObject.FindWithTag("Player");
         HUDSound = GameObject.FindWithTag("HUD").audio;
 
-        for (int i = 0; i < 40; i++)
+        for (int i = 0; i < 100; i++)
         {
-            float x = Random.Range(-500f, 500f);
-            float y = Random.Range(-500f, 500f);
-            float z = Random.Range(-500f, 500f);
+            float x = Random.Range(-1000f, 1000f);
+            float y = Random.Range(-1000f, 1000f);
+            float z = Random.Range(-1000f, 1000f);
 
             GameObject g = GameObject.Instantiate(Resources.Load("Prefabs/Test/TestTarget")) as GameObject;
             g.transform.position = new Vector3(x, y, z);
             Entities.Add(g);
         }
-    }
 
-    public static void TryDoDamage(GameObject g, float damage)
-    {
-        if (g.GetComponent<Entity>() != null)
+        for (int i = 0; i < 100; i++)
         {
-            g.GetComponent<Entity>().Health -= damage;
+            float x = Random.Range(-1000f, 1000f);
+            float y = Random.Range(-1000f, 1000f);
+            float z = Random.Range(-1000f, 1000f);
 
-            GameObject p = GameObject.Instantiate(Resources.Load("Prefabs/HUD/DamagePopup")) as GameObject;
-            p.GetComponent<DamagePopup>().Target = g;
-            p.GetComponent<DamagePopup>().Damage = damage;
-
+            GameObject g = GameObject.Instantiate(Resources.Load("Prefabs/World/Asteroid")) as GameObject;
+            g.transform.position = new Vector3(x, y, z);
         }
     }
 

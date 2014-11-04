@@ -25,7 +25,12 @@ public class Missile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        GameController.TryDoDamage(collision.gameObject, Damage);
+        Debug.Log(collision.gameObject.name + " hit by missile");
+
+        if (collision.gameObject.GetComponent<Entity>() != null)
+        {
+            collision.gameObject.GetComponent<Entity>().TakeDamage(Damage);
+        }
 
         GameObject g = GameObject.Instantiate(Explosion) as GameObject;
         g.transform.position = this.transform.position;

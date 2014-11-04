@@ -40,7 +40,10 @@ public class SeekingMissile: MonoBehaviour
         //Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
         //Vector3 pos = contact.point;
 
-        GameController.TryDoDamage(collision.gameObject, Damage);
+        if (collision.gameObject.GetComponent<Entity>() != null)
+        {
+            collision.gameObject.GetComponent<Entity>().TakeDamage(Damage);
+        }
 
         GameObject g = GameObject.Instantiate(Explosion) as GameObject;
         g.transform.position = this.transform.position;

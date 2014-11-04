@@ -180,6 +180,10 @@ public class TargetSystem : MonoBehaviour
     void LateUpdate()
     {
         // kind of a hack but it works, maybe make nice later
+        if (frontTarget == null)
+        {
+            resetTargetTransform();
+        }
         if (frontTarget != null && !frontTarget.renderer.isVisible)
         {
             resetTargetTransform();

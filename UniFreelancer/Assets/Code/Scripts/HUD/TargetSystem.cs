@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class TargetSystem : MonoBehaviour
 {
-    const float MAX_DETECT_RANGE = 3000.0f;
-    const float CLOSE_DETECT_RANGE = 500.0f;
+    const float MAX_DETECT_RANGE = 1000.0f;
+    const float CLOSE_DETECT_RANGE = 400.0f;
 
     public GameObject LockPrefab;
     public AudioClip Boop;
@@ -115,10 +115,10 @@ public class TargetSystem : MonoBehaviour
         //TargetPrefab.transform.GetChild(2).position = new Vector3(0, 0, 0f);
         //TargetPrefab.transform.GetChild(3).position = new Vector3(0, 0, 0f);
 
-        LockPrefab.transform.GetChild(0).localPosition = new Vector3(0, 0, 0f);
-        LockPrefab.transform.GetChild(1).localPosition = new Vector3(0, 0, 0f);
-        LockPrefab.transform.GetChild(2).localPosition = new Vector3(0, 0, 0f);
-        LockPrefab.transform.GetChild(3).localPosition = new Vector3(0, 0, 0f);
+        LockPrefab.transform.GetChild(0).localPosition = new Vector3(0, 0, -500f);
+        LockPrefab.transform.GetChild(1).localPosition = new Vector3(0, 0, -500f);
+        LockPrefab.transform.GetChild(2).localPosition = new Vector3(0, 0, -500f);
+        LockPrefab.transform.GetChild(3).localPosition = new Vector3(0, 0, -500f);
 
         //TargetPrefab.transform.GetChild(0).rotation = Quaternion.identity;
         //TargetPrefab.transform.GetChild(1).rotation = Quaternion.identity;

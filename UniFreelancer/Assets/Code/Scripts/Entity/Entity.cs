@@ -5,8 +5,8 @@ public class Entity : MonoBehaviour
 {
     public float MaxHealth;
     public float MaxShield;
-    float currentHealth;
-    float currentShield;
+    public float currentHealth;
+    public float currentShield;
 
     float shieldRegen = 5f;
     float shieldRecharge = 10f;

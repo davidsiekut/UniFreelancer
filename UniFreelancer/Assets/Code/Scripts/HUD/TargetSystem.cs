@@ -184,7 +184,8 @@ public class TargetSystem : MonoBehaviour
         {
             resetTargetTransform();
         }
-        if (frontTarget != null && !frontTarget.renderer.isVisible)
+        // TODO if target has renderer in child component
+        if (frontTarget != null && frontTarget.renderer != null && !frontTarget.renderer.isVisible)
         {
             resetTargetTransform();
         }

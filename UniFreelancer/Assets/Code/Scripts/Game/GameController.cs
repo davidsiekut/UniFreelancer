@@ -57,6 +57,9 @@ public class GameController : ScriptableObject
         Player = GameObject.FindWithTag("Player");
         HUDSound = GameObject.FindWithTag("HUD").audio;
 
+        GameObject e = GameObject.Instantiate(Resources.Load("Test/TestEnemyShip")) as GameObject;
+        e.transform.position = new Vector3(0, 0, 50);
+        Entities.Add(e);
         for (int i = 0; i < 100; i++)
         {
             float x = Random.Range(-1000f, 1000f);
@@ -65,7 +68,7 @@ public class GameController : ScriptableObject
 
             GameObject g = GameObject.Instantiate(Resources.Load("Prefabs/Test/TestTarget")) as GameObject;
             g.transform.position = new Vector3(x, y, z);
-            Entities.Add(g);
+            //Entities.Add(g);
         }
 
         for (int i = 0; i < 100; i++)

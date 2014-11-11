@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class TargetSystem : MonoBehaviour
 {
-    const float MAX_DETECT_RANGE = 1000.0f;
+    const float MAX_FRONT_DETECT_RANGE = 1000.0f;
+    const float MAX_AROUND_DETECT_RANGE = 100.0f;
     const float CLOSE_DETECT_RANGE = 400.0f;
 
     public GameObject LockPrefab;
@@ -25,7 +26,7 @@ public class TargetSystem : MonoBehaviour
 
     // targeting
     bool lockRequested = false;
-    float targetDistance = 300.0f; // distance to lock on
+    float targetDistance = 400.0f; // distance to lock on
     GameObject frontTarget;
     bool frontLockingOn = false;
     float frontTargetBuffer;
@@ -202,7 +203,7 @@ public class TargetSystem : MonoBehaviour
 
         foreach (GameObject g in GameController.Entities)
         {
-            if (g != null && g.tag != "Player" && Vector3.Distance(g.transform.position, GameController.Player.transform.position) < MAX_DETECT_RANGE)
+            if (g != null && g.tag != "Player" && Vector3.Distance(g.transform.position, GameController.Player.transform.position) < MAX_FRONT_DETECT_RANGE)
             {
                 Vector3 screen = cam.WorldToScreenPoint(g.transform.position);
 
@@ -225,7 +226,7 @@ public class TargetSystem : MonoBehaviour
                     reticle.transform.localPosition = cam.ScreenToViewportPoint(screen);
                     reticle.guiText.text = (int)Vector3.Distance(g.transform.position, GameController.Player.transform.position) + " m";
                 }
-                else
+                else if (Vector3.Distance(g.transform.position, GameController.Player.transform.position) < MAX_AROUND_DETECT_RANGE)
                 {
                     if (screen.z < 0)
                         screen *= -1;

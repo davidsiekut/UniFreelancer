@@ -3,12 +3,16 @@ using System.Collections;
 
 public class SeekingMissile: MonoBehaviour
 {
-    public GameObject target;
-    public float Damage;
-    float awake = 0.0f;
-    float speed = 10.0f;
-    float homingSensitivity = 0.4f;
     public GameObject Explosion;
+    [HideInInspector]
+    public GameObject target;
+    [HideInInspector]
+    public float Damage;
+
+    float awake = 0.0f;
+    float awakeSpeed = 50f;
+    float speed = 1.8f;
+    float homingSensitivity = 0.7f;
 
 	void Start()
     {
@@ -23,15 +27,15 @@ public class SeekingMissile: MonoBehaviour
             Vector3 relativePos = target.transform.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(relativePos);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, homingSensitivity);
-            rigidbody.velocity = relativePos * 1.1f;
+            rigidbody.velocity = relativePos * speed;
         }
         else
         {
             awake -= Time.deltaTime;
-            rigidbody.AddRelativeForce(GameController.Player.rigidbody.velocity + 50.0f * this.transform.forward);
+            rigidbody.AddRelativeForce(GameController.Player.rigidbody.velocity + awakeSpeed * this.transform.forward);
         }
 
-        Debug.DrawRay(this.transform.position, this.transform.forward * 5.0f, Color.cyan);
+        //Debug.DrawRay(this.transform.position, this.transform.forward * 5.0f, Color.cyan);
     }
 
     void OnCollisionEnter(Collision collision)

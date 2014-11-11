@@ -8,24 +8,28 @@ public class Missile : MonoBehaviour
     public float Damage;
     [HideInInspector]
     public Vector3 Direction;
+    [HideInInspector]
+    public float Range = 100f;
+
+    Vector3 target;
+    float speed = 1.8f;
 
 	void Start()
     {
-        //Quaternion rotation = Quaternion.LookRotation(GameController.Player.transform.forward);
-        //transform.localRotation = rotation;
+        Quaternion rotation = Quaternion.LookRotation(GameController.Player.transform.forward);
+        transform.rotation = rotation;
+        target = GameController.Player.transform.forward * Range;
 	}
 
     void FixedUpdate()
     {
-        //rigidbody.AddRelativeForce(50f * Direction,ForceMode.VelocityChange);
-        rigidbody.AddRelativeForce(GameController.Player.rigidbody.velocity + 300f * Direction.normalized);
-
-        Debug.DrawRay(this.transform.position, Direction.normalized * 5.0f, Color.cyan);
+        rigidbody.velocity = target * speed;
+        //Debug.DrawRay(this.transform.position, Direction.normalized * 5.0f, Color.cyan);
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name + " hit by missile");
+        //Debug.Log(collision.gameObject.name + " hit by missile");
 
         if (collision.gameObject.GetComponent<Entity>() != null)
         {

@@ -57,7 +57,7 @@ public class Weapon : MonoBehaviour
             g.GetComponent<Laser>().Target = final;
             g.GetComponent<Laser>().follow = this.transform;
 
-            GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
+            GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
             GameController.YoureGonnaBurnAlright(Heat);
             Cooldown = _cooldown;
         }
@@ -90,7 +90,7 @@ public class Weapon : MonoBehaviour
                 //g.GetComponent<LineRenderer>().SetPosition(0, initial);
                 //g.GetComponent<LineRenderer>().SetPosition(1, final);
 
-                GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
+                GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
                 GameController.YoureGonnaBurnAlright(Heat);
                 Cooldown = _cooldown;
             }
@@ -116,7 +116,7 @@ public class Weapon : MonoBehaviour
     {
         for (int i = 0; i < Missiles; i++)
         {
-            GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
+            GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
             GameController.YoureGonnaBurnAlright(Heat);
 
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
@@ -138,7 +138,7 @@ public class Weapon : MonoBehaviour
     {
         for (int i = 0; i < Missiles; i++)
         {
-            GameController.HUDSound.PlayOneShot(Shoot, 0.05f);
+            GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
             GameController.YoureGonnaBurnAlright(Heat);
 
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;

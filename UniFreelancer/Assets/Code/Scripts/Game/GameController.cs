@@ -98,4 +98,18 @@ public class GameController : ScriptableObject
     {
         return PlayerHeat / playerHeatMax;
     }
+
+    const float MAX_SOUND_DISTANCE = 2000f;
+    const float MAX_SOUND_VOLUME = 0.01f;
+    public static void PlaySoundAtPlayer(AudioClip a, Vector3 other)
+    {
+        float d = Vector3.Distance(Player.transform.position, other);
+        if (d < MAX_SOUND_DISTANCE)
+        {
+            float vol = Mathf.Lerp(0, MAX_SOUND_VOLUME, d / MAX_SOUND_DISTANCE);
+            vol -= MAX_SOUND_VOLUME;
+            vol *= -1f;
+            HUDSound.PlayOneShot(a, vol);
+        }
+    }
 }

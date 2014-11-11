@@ -48,15 +48,15 @@ public class Laser : MonoBehaviour
                 if (damageCooldown == 0.1f)
                 {
                     // TODO TEMP HACK SO LASER DOESNT HIT SHIP
-                    if (hit.transform.tag != "Player")
-                    {
+                    //if (hit.transform.tag != "Player")
+                    //{
                         Debug.Log(hit.transform.name + " hit by laser");
 
                         if (hit.transform.GetComponent<Entity>() != null)
                         {
                             hit.transform.GetComponent<Entity>().TakeDamage(Damage);
                         }
-                    }
+                    //}
                 }
             }
 

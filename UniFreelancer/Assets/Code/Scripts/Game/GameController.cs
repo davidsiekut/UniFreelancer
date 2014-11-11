@@ -30,8 +30,6 @@ public class GameController : ScriptableObject
     {
         PlayerHeat -= heatCooldownFactor * Time.deltaTime;
         PlayerHeat = Mathf.Clamp(PlayerHeat, 0.0f, playerHeatMax);
-
-        Debug.DrawRay(Player.transform.position, Player.transform.forward.normalized * 50.0f, Color.magenta);
 	}
 
     void load()
@@ -57,9 +55,17 @@ public class GameController : ScriptableObject
         Player = GameObject.FindWithTag("Player");
         HUDSound = GameObject.FindWithTag("HUD").audio;
 
-        GameObject e = GameObject.Instantiate(Resources.Load("Test/TestEnemyShip")) as GameObject;
-        e.transform.position = new Vector3(0, 0, 50);
-        Entities.Add(e);
+        for (int i = 0; i < 100; i++)
+        {
+            float x = Random.Range(-1000f, 1000f);
+            float y = Random.Range(-1000f, 1000f);
+            float z = Random.Range(-1000f, 1000f);
+
+            GameObject e = GameObject.Instantiate(Resources.Load("Prefabs/Ships/Viper")) as GameObject;
+            e.transform.position = new Vector3(x, y, z);
+            Entities.Add(e);
+        }
+
         for (int i = 0; i < 100; i++)
         {
             float x = Random.Range(-1000f, 1000f);
@@ -84,7 +90,7 @@ public class GameController : ScriptableObject
 
     public static void YoureGonnaBurnAlright(float heat)
     {
-        PlayerHeat += heat;
+        //PlayerHeat += heat;
         PlayerHeat = Mathf.Clamp(PlayerHeat, 0.0f, playerHeatMax);
     }
 

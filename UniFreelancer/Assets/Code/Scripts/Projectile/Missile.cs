@@ -20,7 +20,7 @@ public class Missile : MonoBehaviour
         //rigidbody.AddRelativeForce(50f * Direction,ForceMode.VelocityChange);
         rigidbody.AddRelativeForce(GameController.Player.rigidbody.velocity + 300f * Direction.normalized);
 
-        Debug.DrawRay(this.transform.position, Direction.normalized * 5.0f, Color.blue);
+        Debug.DrawRay(this.transform.position, Direction.normalized * 5.0f, Color.cyan);
     }
 
     void OnCollisionEnter(Collision collision)

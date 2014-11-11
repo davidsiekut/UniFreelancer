@@ -31,7 +31,7 @@ public class SeekingMissile: MonoBehaviour
             rigidbody.AddRelativeForce(GameController.Player.rigidbody.velocity + 50.0f * this.transform.forward);
         }
 
-        Debug.DrawRay(this.transform.position, this.transform.forward * 5.0f);
+        Debug.DrawRay(this.transform.position, this.transform.forward * 5.0f, Color.cyan);
     }
 
     void OnCollisionEnter(Collision collision)

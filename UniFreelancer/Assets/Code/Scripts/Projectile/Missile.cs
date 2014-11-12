@@ -12,7 +12,7 @@ public class Missile : MonoBehaviour
     public float Range = 100f;
 
     Vector3 target;
-    float speed = 1.8f;
+    float speed = 2.5f;
 
 	void Start()
     {

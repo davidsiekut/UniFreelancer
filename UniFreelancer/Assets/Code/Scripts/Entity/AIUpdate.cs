@@ -17,8 +17,8 @@ public class AIUpdate : MonoBehaviour
     float accelForce = 0.5f; // how fast the ships speed increases
     float velocityMin = 0.0f; // reverse thrust
     float velocityMax = 20.0f;
-    float velocityShake = 160.0f;
-    float sensitivity = 100.0f;
+    //float velocityShake = 160.0f;
+    //float sensitivity = 100.0f;
 
     void Awake()
     {
@@ -45,12 +45,11 @@ public class AIUpdate : MonoBehaviour
 
         Quaternion targetRotation;
         Ray ray = new Ray(aiBody.transform.position, aiBody.transform.forward * moveForward + aiBody.transform.up * moveUp + aiBody.transform.right * moveRight);
-        Plane plane;
 
         if (moveForward != 0)
         {
             // http://docs.unity3d.com/ScriptReference/Plane.Raycast.html
-            plane = new Plane(aiBody.transform.forward, aiBody.transform.position + aiBody.transform.forward * sensitivity);
+            //Plane plane = new Plane(aiBody.transform.forward, aiBody.transform.position + aiBody.transform.forward * sensitivity);
 
             Vector3 relativePos = (ray.origin + ray.direction * 10f) - aiBody.transform.position;
             targetRotation = Quaternion.LookRotation(relativePos, aiBody.transform.up);
@@ -67,7 +66,6 @@ public class AIUpdate : MonoBehaviour
         aiBody.transform.rotation = Quaternion.Slerp(aiBody.transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
         // move forward or backward
-
         velocity.z = Mathf.Clamp(velocity.z, velocityMin, velocityMax);
 
         // local to world space

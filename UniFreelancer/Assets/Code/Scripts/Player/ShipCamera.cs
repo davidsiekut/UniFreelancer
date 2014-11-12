@@ -8,11 +8,11 @@ public class ShipCamera : MonoBehaviour
     float rotationXlimit = 120.0f;
     float rotationYlimit = 60.0f;
 
-    float finalFollowDistance = 0.0f;
+    //float finalFollowDistance = 0.0f;
     float currentFollowDistance = 0.0f;
-    float followDistanceMin = 0.0f;
-    float followDistanceNeutral = 0.0f;
-    float followDistanceMax = 0.0f;
+    //float followDistanceMin = 0.0f;
+    //float followDistanceNeutral = 0.0f;
+    //float followDistanceMax = 0.0f;
     float followSpeed = 0.01f;
 
     Vector3 permaOffset = new Vector3(0f, 0f, 0f);
@@ -55,16 +55,16 @@ public class ShipCamera : MonoBehaviour
 
     public void SetAccelerating()
     {
-        finalFollowDistance = followDistanceMax;
+        //finalFollowDistance = followDistanceMax;
     }
 
     public void SetDecelerating()
     {
-        finalFollowDistance = followDistanceMin;
+        //finalFollowDistance = followDistanceMin;
     }
 
     public void SetNeutral()
     {
-        finalFollowDistance = followDistanceNeutral;
+        //finalFollowDistance = followDistanceNeutral;
     }
 }

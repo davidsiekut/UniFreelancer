@@ -11,7 +11,7 @@ public class SeekingMissile: MonoBehaviour
 
     float awake = 0.0f;
     float awakeSpeed = 50f;
-    float speed = 1.8f;
+    float speed = 2.5f;
     float homingSensitivity = 0.7f;
 
 	void Start()

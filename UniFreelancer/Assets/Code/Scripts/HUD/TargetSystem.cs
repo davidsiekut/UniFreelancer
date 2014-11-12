@@ -28,7 +28,6 @@ public class TargetSystem : MonoBehaviour
     bool lockRequested = false;
     float targetDistance = 400.0f; // distance to lock on
     GameObject frontTarget;
-    bool frontLockingOn = false;
     float frontTargetBuffer;
     float _frontTargetBuffer = 5.0f; // time to lose lock
     bool frontLockReady = false;

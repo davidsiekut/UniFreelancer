@@ -44,7 +44,7 @@ public class Weapon : MonoBehaviour
 
     public void FireGimbaled(Ray r)
     {
-        Vector3 initial = this.transform.position;
+        //Vector3 initial = this.transform.position;
         Vector3 final = GameController.Player.transform.position + r.direction * Range;
 
         if (Cooldown < 0)
@@ -65,8 +65,8 @@ public class Weapon : MonoBehaviour
 
     public void Fire()
     {
-        Vector3 initial = this.transform.position;
-        Vector3 final = GameController.Player.transform.position + cam.transform.forward * Range;
+        //Vector3 initial = this.transform.position;
+        //Vector3 final = GameController.Player.transform.position + cam.transform.forward * Range;
         //Vector3 direction = final - initial;
 
         if (Cooldown < 0)

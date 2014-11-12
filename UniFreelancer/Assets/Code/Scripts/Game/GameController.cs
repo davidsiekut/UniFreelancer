@@ -66,26 +66,25 @@ public class GameController : ScriptableObject
             Entities.Add(e);
         }
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 1000; i++)
         {
-            float x = Random.Range(-1000f, 1000f);
-            float y = Random.Range(-1000f, 1000f);
-            float z = Random.Range(-1000f, 1000f);
+            float z = Random.Range(-400f, 400f);
 
-            GameObject g = GameObject.Instantiate(Resources.Load("Prefabs/Test/TestTarget")) as GameObject;
-            g.transform.position = new Vector3(x, y, z);
-            //Entities.Add(g);
-        }
-
-        for (int i = 0; i < 100; i++)
-        {
-            float x = Random.Range(-1000f, 1000f);
-            float y = Random.Range(-1000f, 1000f);
-            float z = Random.Range(-1000f, 1000f);
+            Vector2 xy = onUnitCircle(1000f);
 
             GameObject g = GameObject.Instantiate(Resources.Load("Prefabs/World/Asteroid")) as GameObject;
-            g.transform.position = new Vector3(x, y, z);
+            g.transform.position = new Vector3(xy.x, xy.y, z);
         }
+    }
+
+    private static Vector2 onUnitCircle(float radius)
+    {
+        Vector2 r = Random.insideUnitCircle;
+        r.Normalize();
+        r *= radius;
+        Vector2 rr = new Vector2(Random.Range(-400f, 400f), Random.Range(-400f, 400f));
+        r += rr;
+        return r;
     }
 
     public static void YoureGonnaBurnAlright(float heat)

@@ -4,7 +4,9 @@ using System.Collections;
 public class Laser : MonoBehaviour
 {
     [HideInInspector]
-    public Transform follow;
+    public Transform Owner;
+    [HideInInspector]
+    public Transform Origin;
     [HideInInspector]
     public Vector3 Target = Vector3.zero;
     [HideInInspector]
@@ -34,34 +36,32 @@ public class Laser : MonoBehaviour
             v = GameController.Player.transform.position + Camera.main.transform.forward * Range;
         }
 
-        if (follow != null)
+        if (Origin != null)
         {
             //Debug.DrawRay(follow.position, (v - follow.position) * Range, Color.red);
             //check for hits and assign damage
             RaycastHit hit;
-            if (Physics.Raycast(follow.position, (v - follow.position) * Range, out hit, Range))
+            if (Physics.Raycast(Origin.position, (v - Origin.position) * Range, out hit, Range))
             {
-
-                // stop the laser short due to hit
-                v = hit.point;
-
-                if (damageCooldown == 0.1f)
+                if (Owner != hit.transform)
                 {
-                    // TODO TEMP HACK SO LASER DOESNT HIT SHIP
-                    //if (hit.transform.tag != "Player")
-                    //{
-                        Debug.Log(hit.transform.name + " hit by laser");
+                    // stop the laser short due to hit
+                    v = hit.point;
+
+                    if (damageCooldown == 0.1f)
+                    {
+                        //Debug.Log(hit.transform.name + " hit by laser");
 
                         if (hit.transform.GetComponent<Entity>() != null)
                         {
                             hit.transform.GetComponent<Entity>().TakeDamage(Damage);
                         }
-                    //}
+                    }
                 }
             }
 
             // draw the line
-            this.GetComponent<LineRenderer>().SetPosition(0, follow.position);
+            this.GetComponent<LineRenderer>().SetPosition(0, Origin.position);
             this.GetComponent<LineRenderer>().SetPosition(1, v);
         }
 

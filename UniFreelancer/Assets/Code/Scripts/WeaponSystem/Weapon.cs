@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
         PulseLaser = 1,
         SRMissile = 2,
         LRMissile = 3,
-        WeedRipper = 420,
+        PPC = 4,
 
     }
 
@@ -29,11 +29,15 @@ public class Weapon : MonoBehaviour
     float _cooldown;
 
     Camera cam;
+    Transform owner;
 
 	void Start()
     {
         _cooldown = Cooldown;
         cam = Camera.main;
+        // this will throw exception if weapon is in cargo
+        if (this.transform.parent.parent.GetComponent<WeaponSystem>() != null)
+            owner = this.transform.parent.parent.GetComponent<WeaponSystem>().Owner.transform;
     }
 
 	void Update()
@@ -52,10 +56,11 @@ public class Weapon : MonoBehaviour
             //Debug.DrawLine(initial, final.normalized * Range, Color.yellow);
 
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
+            g.GetComponent<Laser>().Owner = owner;
             g.GetComponent<Laser>().Damage = Damage;
             g.GetComponent<Laser>().Range = Range;
             g.GetComponent<Laser>().Target = final;
-            g.GetComponent<Laser>().follow = this.transform;
+            g.GetComponent<Laser>().Origin = this.transform;
 
             GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
             GameController.YoureGonnaBurnAlright(Heat);
@@ -86,7 +91,7 @@ public class Weapon : MonoBehaviour
                 GameObject g = GameObject.Instantiate(Projectile) as GameObject;
                 g.GetComponent<Laser>().Damage = Damage;
                 g.GetComponent<Laser>().Range = Range;
-                g.GetComponent<Laser>().follow = this.transform;
+                g.GetComponent<Laser>().Origin = this.transform;
                 //g.GetComponent<LineRenderer>().SetPosition(0, initial);
                 //g.GetComponent<LineRenderer>().SetPosition(1, final);
 

@@ -13,6 +13,8 @@ public class WeaponSystem : MonoBehaviour
         WeaponSlot_WingRightUpper = 5,
     }
 
+    public GameObject Owner;
+
     public GameObject WeaponSlot_ChassisLeft;
     public GameObject WeaponSlot_ChassisRight;
     public GameObject WeaponSlot_WingLeftLower;

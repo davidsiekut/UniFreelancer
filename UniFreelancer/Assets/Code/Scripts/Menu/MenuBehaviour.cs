@@ -10,6 +10,7 @@ public class MenuBehaviour : MonoBehaviour
 	void Start()
     {
         InvokeRepeating("Flash", 1f, 1f);
+        Screen.lockCursor = true;
 	}
 	
 	void Update()
@@ -19,7 +20,10 @@ public class MenuBehaviour : MonoBehaviour
             Mark.enabled = false;
 
         if (Input.GetKey(KeyCode.Y))
-            Application.LoadLevel("Game");
+        {
+            CancelInvoke();
+            StartCoroutine(coLoad());
+        }
         if (Input.GetKey(KeyCode.N))
             Application.Quit();
 	}
@@ -29,5 +33,11 @@ public class MenuBehaviour : MonoBehaviour
         this.audio.PlayOneShot(Tick, 0.1f);
         Mark.enabled = true;
         timer = 0.5f;
+    }
+
+    IEnumerator coLoad()
+    {
+        yield return new WaitForSeconds(4f);
+        Application.LoadLevel("Game");
     }
 }

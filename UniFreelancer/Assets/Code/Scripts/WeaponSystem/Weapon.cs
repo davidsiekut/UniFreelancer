@@ -68,7 +68,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Fire()
+    public void Fire(Transform t)
     {
         //Vector3 initial = this.transform.position;
         //Vector3 final = GameController.Player.transform.position + cam.transform.forward * Range;
@@ -106,12 +106,22 @@ public class Weapon : MonoBehaviour
             }
             else if (Type == WeaponType.LRMissile)
             {
-                GameObject target = GameController.TargetSystem.GetFrontLockTarget();
-                if (target != null)
+                GameObject target;
+
+                if (t == null)
                 {
-                    StartCoroutine(FireMany(target));
-                    Cooldown = _cooldown;
+                    // player shooting this one
+                    target = GameController.TargetSystem.GetFrontLockTarget();
                 }
+                else
+                {
+                    // npc shooting this one
+                    target = t.gameObject;
+                }
+
+
+                StartCoroutine(FireMany(target));
+                Cooldown = _cooldown;
             }
         }
     }

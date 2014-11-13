@@ -74,10 +74,11 @@ public class Console : MonoBehaviour
             if (l.Count == 2)
             {
                 Speed.SetActive(true);
-                Heat.SetActive(true);
             }
             if (l.Count == 1)
             {
+                Screen.lockCursor = false;
+                Heat.SetActive(true);
                 Crosshair.SetActive(true);
                 CrosshairBounds.SetActive(true);
                 Target.SetActive(true);

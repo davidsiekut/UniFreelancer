@@ -104,23 +104,23 @@ public class WeaponSystem : MonoBehaviour
         WeaponSlot_ChassisRight.transform.GetChild(0).GetComponent<Weapon>().FireGimbaled(r);
     }
 
-    public void FireSlot(int i)
+    public void FireSlot(int i, Transform t)
     {
         if (i == 1)
         {
-            WeaponSlot_WingLeftLower.transform.GetChild(0).GetComponent<Weapon>().Fire();
+            WeaponSlot_WingLeftLower.transform.GetChild(0).GetComponent<Weapon>().Fire(t);
         }
         else if (i == 2)
         {
-            WeaponSlot_WingLeftUpper.transform.GetChild(0).GetComponent<Weapon>().Fire();
+            WeaponSlot_WingLeftUpper.transform.GetChild(0).GetComponent<Weapon>().Fire(t);
         }
         else if (i == 3)
         {
-            WeaponSlot_WingRightUpper.transform.GetChild(0).GetComponent<Weapon>().Fire();
+            WeaponSlot_WingRightUpper.transform.GetChild(0).GetComponent<Weapon>().Fire(t);
         }
         else if (i == 4)
         {
-            WeaponSlot_WingRightLower.transform.GetChild(0).GetComponent<Weapon>().Fire();
+            WeaponSlot_WingRightLower.transform.GetChild(0).GetComponent<Weapon>().Fire(t);
         }
     }
 }

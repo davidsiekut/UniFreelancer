@@ -87,19 +87,19 @@ public class ShipInput : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.Alpha1))
             {
-                weapons.FireSlot(1);
+                weapons.FireSlot(1, null);
             }
             if (Input.GetKey(KeyCode.Alpha2))
             {
-                weapons.FireSlot(2);
+                weapons.FireSlot(2, null);
             }
             if (Input.GetKey(KeyCode.Alpha3))
             {
-                weapons.FireSlot(3);
+                weapons.FireSlot(3, null);
             }
             if (Input.GetKey(KeyCode.Alpha4))
             {
-                weapons.FireSlot(4);
+                weapons.FireSlot(4, null);
             }
         }
     }

@@ -6,6 +6,8 @@ public class GameController : ScriptableObject
 {
     public static GameObject Player;
     public static List<GameObject> Entities;
+    static GameObject _entities;
+    static GameObject _environment;
     public static AudioSource HUDSound;
     public static Console Console;
     public static TargetSystem TargetSystem;
@@ -21,6 +23,8 @@ public class GameController : ScriptableObject
         TargetSystem = GameObject.Find("TargetSystem").GetComponent<TargetSystem>();
         WeaponSystem = GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>();
         Entities = new List<GameObject>();
+        _entities = GameObject.Find("Entities");
+        _environment = GameObject.Find("Environment");
         load();
 
         Console.SystemCheck();
@@ -34,7 +38,7 @@ public class GameController : ScriptableObject
 
     void load()
     {
-        GameObject l = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MLAS")) as GameObject;
+        GameObject l = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MPLAS")) as GameObject;
         WeaponSystem.Equip(l, WeaponSystem.WeaponSlot.WeaponSlot_ChassisLeft);
 
         GameObject r = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_MPLAS")) as GameObject;
@@ -55,7 +59,7 @@ public class GameController : ScriptableObject
         Player = GameObject.FindWithTag("Player");
         HUDSound = GameObject.FindWithTag("HUD").audio;
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 20; i++)
         {
             float x = Random.Range(-1000f, 1000f);
             float y = Random.Range(-1000f, 1000f);
@@ -64,16 +68,19 @@ public class GameController : ScriptableObject
             GameObject e = GameObject.Instantiate(Resources.Load("Prefabs/Ships/Viper")) as GameObject;
             e.transform.position = new Vector3(x, y, z);
             Entities.Add(e);
+            e.transform.parent = _entities.transform;
         }
 
         for (int i = 0; i < 1000; i++)
         {
             float z = Random.Range(-400f, 400f);
-
             Vector2 xy = onUnitCircle(1000f);
 
             GameObject g = GameObject.Instantiate(Resources.Load("Prefabs/World/Asteroid")) as GameObject;
             g.transform.position = new Vector3(xy.x, xy.y, z);
+            float s = Random.Range(1f, 5f);
+            g.transform.localScale = new Vector3(s, s, s);
+            g.transform.parent = _environment.transform;
         }
     }
 

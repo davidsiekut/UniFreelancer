@@ -1,13 +1,13 @@
 // Shader created with Shader Forge Beta 0.36 
 // Shader Forge (c) Joachim Holmer - http://www.acegikmo.com/shaderforge/
 // Note: Manually altering this data may prevent you from opening it in Shader Forge
-/*SF_DATA;ver:0.36;sub:START;pass:START;ps:flbk:Diffuse,lico:1,lgpr:1,nrmq:1,limd:1,uamb:True,mssp:True,lmpd:False,lprd:False,enco:False,frtr:True,vitr:True,dbil:False,rmgx:True,rpth:0,hqsc:True,hqlp:False,tesm:0,blpr:0,bsrc:0,bdst:0,culm:0,dpts:2,wrdp:True,ufog:True,aust:True,igpj:False,qofs:0,qpre:1,rntp:1,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,ofsf:0,ofsu:0,f2p0:False;n:type:ShaderForge.SFN_Final,id:1,x:32719,y:32712|diff-5-OUT;n:type:ShaderForge.SFN_Color,id:2,x:33321,y:32649,ptlb:ColorMin,ptin:_ColorMin,glob:False,c1:0,c2:0,c3:0,c4:0;n:type:ShaderForge.SFN_Tex2d,id:3,x:33321,y:33000,ptlb:Texture,ptin:_Texture,tex:28c7aad1372ff114b90d330f8a2dd938,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Color,id:4,x:33321,y:32821,ptlb:ColorMax,ptin:_ColorMax,glob:False,c1:0.5,c2:0.5,c3:0.5,c4:1;n:type:ShaderForge.SFN_Lerp,id:5,x:33042,y:32768|A-2-RGB,B-4-RGB,T-3-RGB;proporder:2-4-3;pass:END;sub:END;*/
+/*SF_DATA;ver:0.36;sub:START;pass:START;ps:flbk:Diffuse,lico:1,lgpr:1,nrmq:1,limd:1,uamb:True,mssp:True,lmpd:False,lprd:False,enco:False,frtr:True,vitr:True,dbil:False,rmgx:True,rpth:0,hqsc:True,hqlp:False,tesm:0,blpr:0,bsrc:0,bdst:0,culm:0,dpts:2,wrdp:True,ufog:True,aust:True,igpj:False,qofs:0,qpre:1,rntp:1,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,ofsf:0,ofsu:0,f2p0:False;n:type:ShaderForge.SFN_Final,id:1,x:32719,y:32712|diff-5-OUT;n:type:ShaderForge.SFN_Color,id:2,x:33321,y:32649,ptlb:ColorMin,ptin:_ColorMin,glob:False,c1:0,c2:0,c3:0,c4:0;n:type:ShaderForge.SFN_Tex2d,id:3,x:33321,y:33000,ptlb:_MainTex,ptin:__MainTex,tex:28c7aad1372ff114b90d330f8a2dd938,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Color,id:4,x:33321,y:32821,ptlb:ColorMax,ptin:_ColorMax,glob:False,c1:0.5,c2:0.5,c3:0.5,c4:1;n:type:ShaderForge.SFN_Lerp,id:5,x:33042,y:32768|A-2-RGB,B-4-RGB,T-3-RGB;proporder:2-4-3;pass:END;sub:END;*/
 
 Shader "UniFreelancer/Asteroid" {
     Properties {
         _ColorMin ("ColorMin", Color) = (0,0,0,0)
         _ColorMax ("ColorMax", Color) = (0.5,0.5,0.5,1)
-        _Texture ("Texture", 2D) = "white" {}
+        __MainTex ("_MainTex", 2D) = "white" {}
     }
     SubShader {
         Tags {
@@ -31,7 +31,7 @@ Shader "UniFreelancer/Asteroid" {
             #pragma target 3.0
             uniform float4 _LightColor0;
             uniform float4 _ColorMin;
-            uniform sampler2D _Texture; uniform float4 _Texture_ST;
+            uniform sampler2D __MainTex; uniform float4 __MainTex_ST;
             uniform float4 _ColorMax;
             struct VertexInput {
                 float4 vertex : POSITION;
@@ -68,7 +68,7 @@ Shader "UniFreelancer/Asteroid" {
                 float3 finalColor = 0;
                 float3 diffuseLight = diffuse;
                 float2 node_14 = i.uv0;
-                finalColor += diffuseLight * lerp(_ColorMin.rgb,_ColorMax.rgb,tex2D(_Texture,TRANSFORM_TEX(node_14.rg, _Texture)).rgb);
+                finalColor += diffuseLight * lerp(_ColorMin.rgb,_ColorMax.rgb,tex2D(__MainTex,TRANSFORM_TEX(node_14.rg, __MainTex)).rgb);
 /// Final Color:
                 return fixed4(finalColor,1);
             }
@@ -94,7 +94,7 @@ Shader "UniFreelancer/Asteroid" {
             #pragma target 3.0
             uniform float4 _LightColor0;
             uniform float4 _ColorMin;
-            uniform sampler2D _Texture; uniform float4 _Texture_ST;
+            uniform sampler2D __MainTex; uniform float4 __MainTex_ST;
             uniform float4 _ColorMax;
             struct VertexInput {
                 float4 vertex : POSITION;
@@ -131,7 +131,7 @@ Shader "UniFreelancer/Asteroid" {
                 float3 finalColor = 0;
                 float3 diffuseLight = diffuse;
                 float2 node_15 = i.uv0;
-                finalColor += diffuseLight * lerp(_ColorMin.rgb,_ColorMax.rgb,tex2D(_Texture,TRANSFORM_TEX(node_15.rg, _Texture)).rgb);
+                finalColor += diffuseLight * lerp(_ColorMin.rgb,_ColorMax.rgb,tex2D(__MainTex,TRANSFORM_TEX(node_15.rg, __MainTex)).rgb);
 /// Final Color:
                 return fixed4(finalColor * 1,0);
             }

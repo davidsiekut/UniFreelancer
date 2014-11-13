@@ -56,6 +56,10 @@ public class Laser : MonoBehaviour
                         {
                             hit.transform.GetComponent<Entity>().TakeDamage(Damage);
                         }
+                        else if (hit.transform.GetComponent<Asteroid>() != null)
+                        {
+                            hit.transform.GetComponent<Asteroid>().TakeDamage(Damage);
+                        }
                     }
                 }
             }

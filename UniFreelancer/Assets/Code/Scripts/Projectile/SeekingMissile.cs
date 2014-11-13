@@ -9,7 +9,7 @@ public class SeekingMissile: MonoBehaviour
     [HideInInspector]
     public float Damage;
 
-    float awake = 0.0f;
+    float awake = 1.0f;
     float awakeSpeed = 50f;
     float speed = 2.5f;
     float homingSensitivity = 0.7f;
@@ -22,18 +22,16 @@ public class SeekingMissile: MonoBehaviour
 	
 	void FixedUpdate()
     {
-        if (target != null && awake < 0)
+        if (target != null)
         {
             Vector3 relativePos = target.transform.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(relativePos);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, homingSensitivity);
             rigidbody.velocity = relativePos * speed;
         }
-        else
-        {
+
+        if (awake > 0)
             awake -= Time.deltaTime;
-            rigidbody.AddRelativeForce(GameController.Player.rigidbody.velocity + awakeSpeed * this.transform.forward);
-        }
 
         //Debug.DrawRay(this.transform.position, this.transform.forward * 5.0f, Color.cyan);
     }
@@ -44,14 +42,21 @@ public class SeekingMissile: MonoBehaviour
         //Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
         //Vector3 pos = contact.point;
 
-        if (collision.gameObject.GetComponent<Entity>() != null)
+        if (awake < 0)
         {
-            collision.gameObject.GetComponent<Entity>().TakeDamage(Damage);
+            if (collision.gameObject.GetComponent<Entity>() != null)
+            {
+                collision.gameObject.GetComponent<Entity>().TakeDamage(Damage);
+            }
+            else if (collision.gameObject.GetComponent<Asteroid>() != null)
+            {
+                collision.gameObject.GetComponent<Asteroid>().TakeDamage(Damage);
+            }
+
+            GameObject g = GameObject.Instantiate(Explosion) as GameObject;
+            g.transform.position = this.transform.position;
+
+            Destroy(gameObject);
         }
-
-        GameObject g = GameObject.Instantiate(Explosion) as GameObject;
-        g.transform.position = this.transform.position;
-
-        Destroy(gameObject);
     }
 }

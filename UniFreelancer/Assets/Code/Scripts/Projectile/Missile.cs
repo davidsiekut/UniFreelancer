@@ -35,6 +35,10 @@ public class Missile : MonoBehaviour
         {
             collision.gameObject.GetComponent<Entity>().TakeDamage(Damage);
         }
+        else if (collision.gameObject.GetComponent<Asteroid>() != null)
+        {
+            collision.gameObject.GetComponent<Asteroid>().TakeDamage(Damage);
+        }
 
         GameObject g = GameObject.Instantiate(Explosion) as GameObject;
         g.transform.position = this.transform.position;

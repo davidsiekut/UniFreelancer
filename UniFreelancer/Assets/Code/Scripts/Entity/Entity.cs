@@ -50,14 +50,14 @@ public class Entity : MonoBehaviour
 
     void OnCollisionEnter(Collision c)
     {
-        Debug.Log(this.name + " collided with " + c.transform.name);
+        //Debug.Log(this.name + " collided with " + c.transform.name);
 
         // be careful to check for stuff here, because things like missiles
         // will also assign damage
 
         float damage = this.rigidbody.velocity.magnitude + c.rigidbody.velocity.magnitude;
         damage /= 2;
-        Debug.Log("Damage taken " + damage);
+        //Debug.Log("Damage taken " + damage);
 
         if (c.gameObject.name == "Asteroid(Clone)")
             TakeDamage(damage);
@@ -65,14 +65,13 @@ public class Entity : MonoBehaviour
 
     public void TakeDamage(float d)
     {
+        _shieldRecharge = 0; // break shields
         if (currentShield > 0)
         {
             currentShield -= d;
 
             if (currentShield < 0)
             {
-                // shields broken
-                _shieldRecharge = 0;
                 // rollover to health
                 currentHealth += currentShield;
             }

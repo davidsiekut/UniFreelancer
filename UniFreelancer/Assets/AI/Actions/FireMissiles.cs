@@ -11,9 +11,11 @@ public class FireMissiles : RAINAction
     {
         base.Start(ai);
 
-        ai.WorkingMemory.SetItem<float>("varMissile", 5f);
+        // reset
+        ai.WorkingMemory.SetItem<float>("varMissile", 20f);
         Transform t = ai.WorkingMemory.GetItem<GameObject>("varFront").transform;
 
+        // TODO disable this or make it permanent
         ai.Body.rigidbody.freezeRotation = true;
 
         // TODO needs to be different for other ships

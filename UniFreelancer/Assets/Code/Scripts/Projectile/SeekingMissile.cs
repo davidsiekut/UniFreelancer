@@ -4,27 +4,29 @@ using System.Collections;
 public class SeekingMissile: MonoBehaviour
 {
     public GameObject Explosion;
-    [HideInInspector]
-    public GameObject target;
+    //[HideInInspector]
+    public GameObject Target;
     [HideInInspector]
     public float Damage;
 
     float awake = 1.0f;
-    float awakeSpeed = 50f;
+    //float awakeSpeed = 50f;
     float speed = 2.5f;
     float homingSensitivity = 0.7f;
 
+    float lifetime = 10f;
+
 	void Start()
     {
-        Quaternion rotation = Quaternion.LookRotation(GameController.Player.transform.forward);
-        transform.rotation = rotation;
+        //Quaternion rotation = Quaternion.LookRotation(GameController.Player.transform.forward);
+        //transform.rotation = rotation;
 	}
 	
 	void FixedUpdate()
     {
-        if (target != null)
+        if (Target != null)
         {
-            Vector3 relativePos = target.transform.position - transform.position;
+            Vector3 relativePos = Target.transform.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(relativePos);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, homingSensitivity);
             rigidbody.velocity = relativePos * speed;
@@ -32,6 +34,18 @@ public class SeekingMissile: MonoBehaviour
 
         if (awake > 0)
             awake -= Time.deltaTime;
+
+        if (lifetime > 0)
+        {
+            lifetime -= Time.deltaTime;
+        }
+        else
+        {
+            GameObject g = GameObject.Instantiate(Explosion) as GameObject;
+            g.transform.position = this.transform.position;
+            Destroy(gameObject);
+        }
+        
 
         //Debug.DrawRay(this.transform.position, this.transform.forward * 5.0f, Color.cyan);
     }
@@ -55,7 +69,6 @@ public class SeekingMissile: MonoBehaviour
 
             GameObject g = GameObject.Instantiate(Explosion) as GameObject;
             g.transform.position = this.transform.position;
-
             Destroy(gameObject);
         }
     }

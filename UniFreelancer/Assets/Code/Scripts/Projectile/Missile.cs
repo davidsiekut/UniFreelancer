@@ -14,6 +14,8 @@ public class Missile : MonoBehaviour
     Vector3 target;
     float speed = 2.5f;
 
+    float lifetime = 10f;
+
 	void Start()
     {
         Quaternion rotation = Quaternion.LookRotation(GameController.Player.transform.forward);
@@ -25,6 +27,17 @@ public class Missile : MonoBehaviour
     {
         rigidbody.velocity = target * speed;
         //Debug.DrawRay(this.transform.position, Direction.normalized * 5.0f, Color.cyan);
+
+        if (lifetime > 0)
+        {
+            lifetime -= Time.deltaTime;
+        }
+        else
+        {
+            GameObject g = GameObject.Instantiate(Explosion) as GameObject;
+            g.transform.position = this.transform.position;
+            Destroy(gameObject);
+        }
     }
 
     void OnCollisionEnter(Collision collision)

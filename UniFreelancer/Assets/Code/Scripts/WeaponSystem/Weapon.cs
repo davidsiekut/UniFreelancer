@@ -158,7 +158,7 @@ public class Weapon : MonoBehaviour
 
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
             g.transform.position = this.transform.parent.position;
-            g.GetComponent<SeekingMissile>().target = target;
+            g.GetComponent<SeekingMissile>().Target = target;
 
             yield return new WaitForSeconds(FireRate);
         }

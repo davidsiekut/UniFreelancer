@@ -28,7 +28,7 @@ public class Entity : MonoBehaviour
             GameObject g = GameObject.Instantiate(Explosion) as GameObject;
             g.transform.position = this.transform.position;
 
-            GameController.Console.Add("target destroyed");
+            //GameController.Console.Add("target destroyed");
 
             Destroy(gameObject);
         }

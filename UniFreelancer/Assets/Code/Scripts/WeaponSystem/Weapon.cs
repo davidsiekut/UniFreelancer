@@ -56,11 +56,12 @@ public class Weapon : MonoBehaviour
             //Debug.DrawLine(initial, final.normalized * Range, Color.yellow);
 
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
+            g.GetComponent<Laser>().Origin = this.transform;
             g.GetComponent<Laser>().Owner = owner;
             g.GetComponent<Laser>().Damage = Damage;
             g.GetComponent<Laser>().Range = Range;
             g.GetComponent<Laser>().Target = final;
-            g.GetComponent<Laser>().Origin = this.transform;
+
 
             GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
             GameController.YoureGonnaBurnAlright(Heat);

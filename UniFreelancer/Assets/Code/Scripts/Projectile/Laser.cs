@@ -38,11 +38,12 @@ public class Laser : MonoBehaviour
 
         if (Origin != null)
         {
-            //Debug.DrawRay(follow.position, (v - follow.position) * Range, Color.red);
+            //Debug.DrawRay(Origin.position, (v - Origin.position) * Range, Color.red);
             //check for hits and assign damage
             RaycastHit hit;
             if (Physics.Raycast(Origin.position, (v - Origin.position) * Range, out hit, Range))
             {
+
                 if (Owner != hit.transform)
                 {
                     // stop the laser short due to hit
@@ -60,7 +61,7 @@ public class Laser : MonoBehaviour
                         {
                             hit.transform.GetComponent<Asteroid>().TakeDamage(Damage);
                         }
-                    }
+                   }
                 }
             }
 

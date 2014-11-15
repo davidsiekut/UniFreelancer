@@ -24,7 +24,8 @@ public class Inventory : MonoBehaviour
             if (ChassisLeft.HitTest(Input.mousePosition))
             {
                 if (Current.GetComponent<Weapon>().Type != Weapon.WeaponType.LRMissile
-                    && Current.GetComponent<Weapon>().Type != Weapon.WeaponType.SRMissile)
+                    && Current.GetComponent<Weapon>().Type != Weapon.WeaponType.SRMissile
+                    && Current.GetComponent<Weapon>().Type != Weapon.WeaponType.COUNTERMEASURE)
                 {
                     GameObject g = GameController.WeaponSystem.Unequip(WeaponSystem.WeaponSlot.WeaponSlot_ChassisLeft);
                     GameController.WeaponSystem.Equip(Current, WeaponSystem.WeaponSlot.WeaponSlot_ChassisLeft);
@@ -34,7 +35,8 @@ public class Inventory : MonoBehaviour
             else if (ChassisRight.HitTest(Input.mousePosition))
             {
                 if (Current.GetComponent<Weapon>().Type != Weapon.WeaponType.LRMissile
-                    && Current.GetComponent<Weapon>().Type != Weapon.WeaponType.SRMissile)
+                    && Current.GetComponent<Weapon>().Type != Weapon.WeaponType.SRMissile
+                    && Current.GetComponent<Weapon>().Type != Weapon.WeaponType.COUNTERMEASURE)
                 {
                     GameObject g = GameController.WeaponSystem.Unequip(WeaponSystem.WeaponSlot.WeaponSlot_ChassisRight);
                     GameController.WeaponSystem.Equip(Current, WeaponSystem.WeaponSlot.WeaponSlot_ChassisRight);

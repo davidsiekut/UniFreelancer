@@ -11,6 +11,7 @@ public class Weapon : MonoBehaviour
         SRMissile = 2,
         LRMissile = 3,
         PPC = 4,
+        COUNTERMEASURE = 5,
 
     }
 
@@ -64,7 +65,7 @@ public class Weapon : MonoBehaviour
 
 
             GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
-            GameController.YoureGonnaBurnAlright(Heat);
+            if (owner.tag == "Player") GameController.YoureGonnaBurnAlright(Heat);
             Cooldown = _cooldown;
         }
     }
@@ -97,7 +98,8 @@ public class Weapon : MonoBehaviour
                 //g.GetComponent<LineRenderer>().SetPosition(1, final);
 
                 GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
-                GameController.YoureGonnaBurnAlright(Heat);
+                if (owner.tag == "Player") GameController.YoureGonnaBurnAlright(Heat);
+
                 Cooldown = _cooldown;
             }
             else if (Type == WeaponType.SRMissile)
@@ -124,6 +126,11 @@ public class Weapon : MonoBehaviour
                 StartCoroutine(FireMany(target));
                 Cooldown = _cooldown;
             }
+            else if (Type == WeaponType.COUNTERMEASURE)
+            {
+                StartCoroutine(FireMany());
+                Cooldown = _cooldown;
+            }
         }
     }
 
@@ -133,7 +140,7 @@ public class Weapon : MonoBehaviour
         for (int i = 0; i < Missiles; i++)
         {
             GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
-            GameController.YoureGonnaBurnAlright(Heat);
+            if (owner.tag == "Player") GameController.YoureGonnaBurnAlright(Heat);
 
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
             g.transform.position = this.transform.parent.position;
@@ -142,8 +149,16 @@ public class Weapon : MonoBehaviour
             Vector3 final = GameController.Player.transform.position + cam.transform.forward * Range;
             Vector3 direction = final - initial;
 
-            g.GetComponent<Missile>().Damage = Damage;
-            g.GetComponent<Missile>().Direction = direction;
+            if (g.GetComponent<Missile>())
+            {
+                g.GetComponent<Missile>().Damage = Damage;
+                g.GetComponent<Missile>().Direction = direction;
+            }
+            else if (g.GetComponent<Countermeasure>())
+            {
+                final += cam.transform.up * 10f;
+                g.GetComponent<Countermeasure>().Target = final;
+            }
 
             yield return new WaitForSeconds(FireRate);
         }
@@ -155,7 +170,7 @@ public class Weapon : MonoBehaviour
         for (int i = 0; i < Missiles; i++)
         {
             GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
-            GameController.YoureGonnaBurnAlright(Heat);
+            if (owner.tag == "Player") GameController.YoureGonnaBurnAlright(Heat);
 
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
             g.transform.position = this.transform.parent.position;

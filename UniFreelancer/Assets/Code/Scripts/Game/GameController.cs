@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DCM;
 
 public class GameController : ScriptableObject
 {
@@ -15,7 +16,7 @@ public class GameController : ScriptableObject
 
     public static float PlayerHeat;
     static float playerHeatMax = 200.0f;
-    static float heatCooldownFactor = 7f;
+    static float heatCooldownFactor = 10f;
 
 	void Start()
     {
@@ -47,13 +48,13 @@ public class GameController : ScriptableObject
         GameObject w1 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_PPC")) as GameObject;
         WeaponSystem.Equip(w1, WeaponSystem.WeaponSlot.WeaponSlot_WingLeftLower);
 
-        GameObject w2 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Lasers/Weapon_ERLLAS")) as GameObject;
+        GameObject w2 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Missiles/Weapon_SRM2")) as GameObject;
         WeaponSystem.Equip(w2, WeaponSystem.WeaponSlot.WeaponSlot_WingLeftUpper);
 
-        GameObject w3 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Missiles/Weapon_LRM5")) as GameObject;
+        GameObject w3 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Defensive/Weapon_Countermeasure")) as GameObject;
         WeaponSystem.Equip(w3, WeaponSystem.WeaponSlot.WeaponSlot_WingRightLower);
 
-        GameObject w4 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Missiles/Weapon_SRM6")) as GameObject;
+        GameObject w4 = GameObject.Instantiate(Resources.Load("Prefabs/Weapons/Missiles/Weapon_LRM5")) as GameObject;
         WeaponSystem.Equip(w4, WeaponSystem.WeaponSlot.WeaponSlot_WingRightUpper);
 
         Player = GameObject.FindWithTag("Player");
@@ -82,6 +83,7 @@ public class GameController : ScriptableObject
             g.transform.localScale = new Vector3(s, s, s);
             g.transform.parent = _environment.transform;
         }
+        //_environment.GetComponent<DrawCallMinimizer>().Go();
     }
 
     private static Vector2 onUnitCircle(float radius)
@@ -96,7 +98,7 @@ public class GameController : ScriptableObject
 
     public static void YoureGonnaBurnAlright(float heat)
     {
-        //PlayerHeat += heat;
+        PlayerHeat += heat;
         PlayerHeat = Mathf.Clamp(PlayerHeat, 0.0f, playerHeatMax);
     }
 

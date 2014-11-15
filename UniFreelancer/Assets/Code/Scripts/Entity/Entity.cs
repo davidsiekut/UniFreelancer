@@ -13,6 +13,7 @@ public class Entity : MonoBehaviour
     float _shieldRecharge;
 
     public GameObject Explosion;
+    public AudioClip[] Impact;
 
 	void Start()
     {
@@ -87,6 +88,15 @@ public class Entity : MonoBehaviour
             p.GetComponent<DamagePopup>().Target = this.gameObject;
             p.GetComponent<DamagePopup>().Damage = d;
         }
+        else
+        {
+            int i = Random.Range(0, Impact.Length);
+            GameController.PlaySoundAtPlayer(Impact[i], this.transform.position);
+
+            shake_intensity = .5f;
+            StopAllCoroutines();
+            StartCoroutine(ShakeMe());
+        }
     }
 
     public float GetHealthPercent()
@@ -97,5 +107,28 @@ public class Entity : MonoBehaviour
     public float GetShieldPercent()
     {
         return currentShield / MaxShield;
+    }
+
+    private Vector3 originPosition;
+    private Quaternion originRotation;
+    private float shake_decay = 3f;
+    private float shake_intensity;
+    IEnumerator ShakeMe()
+    {
+        originPosition = transform.position;
+        originRotation = transform.rotation;
+
+        while (shake_intensity > 0)
+        {
+            //Debug.Log(shake_intensity);
+            transform.position = originPosition + Random.insideUnitSphere * shake_intensity;
+            transform.rotation = new Quaternion(
+            originRotation.x + Random.Range(-shake_intensity, shake_intensity) * .2f,
+            originRotation.y + Random.Range(-shake_intensity, shake_intensity) * .2f,
+            originRotation.z + Random.Range(-shake_intensity, shake_intensity) * .2f,
+            originRotation.w + Random.Range(-shake_intensity, shake_intensity) * .2f);
+            shake_intensity -= shake_decay * Time.deltaTime;
+            yield return null;
+        }
     }
 }

@@ -3,8 +3,8 @@ using System.Collections;
 
 public class HeatInfo : MonoBehaviour
 {
-    int flashCount = 0;
-    int flashSpeed = 10;
+    //int flashCount = 0;
+    //int flashSpeed = 10;
     bool flashing = false;
 
     public GUITexture WarningHeat;

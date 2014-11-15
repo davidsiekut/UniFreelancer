@@ -28,7 +28,8 @@ namespace DCM {
             destroyOriginalGameObject = false;
         public const string VERSION = "2.0";
         /// This option has a far longer preprocessing time at startup but leads to better runtime performance.
-        void Start() {
+        //void Start() {
+        public void Go() {
             MeshFilter[] filters = GetComponentsInChildren<MeshFilter>();
             Matrix4x4 myTransform = transform.worldToLocalMatrix;
             

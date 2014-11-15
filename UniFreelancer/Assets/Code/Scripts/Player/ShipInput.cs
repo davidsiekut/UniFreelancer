@@ -9,10 +9,10 @@ public class ShipInput : MonoBehaviour
     Vector3 velocity = Vector3.zero;
 
     float rotationSpeed = 1.5f;
-    float accelForce = 0.5f; // how fast the ships speed increases
+    float accelForce = 0.9f; // how fast the ships speed increases
     float velocityMin = 0.0f; // reverse thrust
-    float velocityMax = 200.0f;
-    float velocityShake = 160.0f;
+    float velocityMax = 100.0f;
+    float velocityShake = 90.0f;
     float sensitivity = 100.0f;
 
     WeaponSystem weapons;

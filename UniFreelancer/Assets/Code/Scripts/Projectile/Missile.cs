@@ -4,6 +4,7 @@ using System.Collections;
 public class Missile : MonoBehaviour
 {
     public GameObject Explosion;
+    public AudioClip Impact;
     [HideInInspector]
     public float Damage;
     [HideInInspector]
@@ -52,6 +53,8 @@ public class Missile : MonoBehaviour
         {
             collision.gameObject.GetComponent<Asteroid>().TakeDamage(Damage);
         }
+
+        GameController.PlaySoundAtPlayer(Impact, this.transform.position);
 
         GameObject g = GameObject.Instantiate(Explosion) as GameObject;
         g.transform.position = this.transform.position;

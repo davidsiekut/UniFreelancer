@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Laser : MonoBehaviour
 {
+    public GameObject Explosion;
     [HideInInspector]
     public Transform Owner;
     [HideInInspector]
@@ -61,6 +62,9 @@ public class Laser : MonoBehaviour
                         {
                             hit.transform.GetComponent<Asteroid>().TakeDamage(Damage);
                         }
+
+                        GameObject g = GameObject.Instantiate(Explosion) as GameObject;
+                        g.transform.position = v;
                    }
                 }
             }

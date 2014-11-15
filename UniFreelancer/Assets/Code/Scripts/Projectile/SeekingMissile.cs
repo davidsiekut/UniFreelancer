@@ -4,6 +4,7 @@ using System.Collections;
 public class SeekingMissile: MonoBehaviour
 {
     public GameObject Explosion;
+    public AudioClip Impact;
     //[HideInInspector]
     public GameObject Target;
     [HideInInspector]
@@ -14,7 +15,7 @@ public class SeekingMissile: MonoBehaviour
     float speed = 2.5f;
     float homingSensitivity = 0.7f;
 
-    float lifetime = 10f;
+    float lifetime = 15f;
 
 	void Start()
     {
@@ -50,6 +51,14 @@ public class SeekingMissile: MonoBehaviour
         //Debug.DrawRay(this.transform.position, this.transform.forward * 5.0f, Color.cyan);
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "Flare(Clone)")
+        {
+            Target = other.gameObject;
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         //ContactPoint contact = collision.contacts[0];
@@ -66,6 +75,8 @@ public class SeekingMissile: MonoBehaviour
             {
                 collision.gameObject.GetComponent<Asteroid>().TakeDamage(Damage);
             }
+
+            GameController.PlaySoundAtPlayer(Impact, this.transform.position);
 
             GameObject g = GameObject.Instantiate(Explosion) as GameObject;
             g.transform.position = this.transform.position;

@@ -122,9 +122,11 @@ public class Weapon : MonoBehaviour
                     target = t.gameObject;
                 }
 
-
-                StartCoroutine(FireMany(target));
-                Cooldown = _cooldown;
+                if (GameController.TargetSystem.GetFrontLockTarget() != null)
+                {
+                    StartCoroutine(FireMany(target));
+                    Cooldown = _cooldown;
+                }
             }
             else if (Type == WeaponType.COUNTERMEASURE)
             {

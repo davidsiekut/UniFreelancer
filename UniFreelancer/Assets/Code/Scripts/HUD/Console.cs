@@ -12,6 +12,9 @@ public class Console : MonoBehaviour
     public GameObject Target;
     public GameObject Hardpoints;
 
+    public GameObject WarningHeat;
+    public GameObject MissileTrackerHUD;
+
     string[] buffer;
     float fadeTimer;
     float _fadeTimer = 3.0f;
@@ -55,11 +58,14 @@ public class Console : MonoBehaviour
 
     IEnumerator CoSystemCheck()
     {
+        yield return new WaitForSeconds(5f);
+
         List<string> l = new List<string>();
         l.Add("swordfish iii status check initiated");
         l.Add("vital system... online");
         l.Add("mono system... online");
         l.Add("weapon system... online");
+
         l.Add("good luck, space cowboy!");
 
         while (l.Count > 0)
@@ -77,6 +83,7 @@ public class Console : MonoBehaviour
             }
             if (l.Count == 1)
             {
+                Screen.showCursor = true;
                 Screen.lockCursor = false;
                 Heat.SetActive(true);
                 Crosshair.SetActive(true);

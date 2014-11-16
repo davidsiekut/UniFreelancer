@@ -5,6 +5,8 @@ using DCM;
 
 public class GameController : ScriptableObject
 {
+    public static GUITexture Overlay;
+
     public static GameObject Player;
     public static List<GameObject> Entities;
     static GameObject _entities;
@@ -15,11 +17,18 @@ public class GameController : ScriptableObject
     public static WeaponSystem WeaponSystem;
 
     public static float PlayerHeat;
-    static float playerHeatMax = 200.0f;
+    static float playerHeatMax = 200f;
     static float heatCooldownFactor = 10f;
+
+    static float _heatTimer = 7f;
+    static float heatTimer;
 
 	void Start()
     {
+        heatTimer = _heatTimer;
+
+        Overlay = GameObject.Find("Overlay").guiTexture;
+
         Console = GameObject.Find("Console").GetComponent<Console>();
         TargetSystem = GameObject.Find("TargetSystem").GetComponent<TargetSystem>();
         WeaponSystem = GameObject.Find("WeaponSystem").GetComponent<WeaponSystem>();
@@ -28,6 +37,7 @@ public class GameController : ScriptableObject
         _environment = GameObject.Find("Environment");
         load();
 
+        Overlay.GetComponent<Fade>().FadeInTex();
         Console.SystemCheck();
 	}
 	
@@ -35,6 +45,20 @@ public class GameController : ScriptableObject
     {
         PlayerHeat -= heatCooldownFactor * Time.deltaTime;
         PlayerHeat = Mathf.Clamp(PlayerHeat, 0.0f, playerHeatMax);
+
+        if (GetPlayerHeatPercent() > 0.9)
+        {
+            heatTimer -= Time.deltaTime;
+
+            if (heatTimer < 0)
+            {
+                Player.GetComponent<Entity>().TakeHeatDamage(5 * Time.deltaTime);
+            }
+        }
+        else
+        {
+            heatTimer = _heatTimer;
+        }
 	}
 
     void load()

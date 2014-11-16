@@ -11,6 +11,7 @@ public class MenuBehaviour : MonoBehaviour
     {
         InvokeRepeating("Flash", 1f, 1f);
         Screen.lockCursor = true;
+        Screen.showCursor = false;
 	}
 	
 	void Update()

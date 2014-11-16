@@ -12,7 +12,7 @@ public class SeekingMissile: MonoBehaviour
 
     float awake = 1.0f;
     //float awakeSpeed = 50f;
-    float speed = 2.5f;
+    float speed = 4.5f;
     float homingSensitivity = 0.7f;
 
     float lifetime = 15f;
@@ -46,7 +46,20 @@ public class SeekingMissile: MonoBehaviour
             g.transform.position = this.transform.position;
             Destroy(gameObject);
         }
-        
+
+        if (Target != null && Vector3.Distance(Target.transform.position, this.transform.position) < 5)
+        {
+            if (Target.GetComponent<Entity>() != null)
+            {
+                Target.GetComponent<Entity>().TakeDamage(Damage);
+                GameController.PlaySoundAtPlayer(Impact, this.transform.position);
+
+                GameObject g = GameObject.Instantiate(Explosion) as GameObject;
+                g.transform.position = this.transform.position;
+                Destroy(gameObject);
+            }
+        }
+
 
         //Debug.DrawRay(this.transform.position, this.transform.forward * 5.0f, Color.cyan);
     }

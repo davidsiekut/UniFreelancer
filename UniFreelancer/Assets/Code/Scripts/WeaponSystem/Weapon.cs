@@ -25,6 +25,7 @@ public class Weapon : MonoBehaviour
     public int Missiles;
     public float FireRate;
     public AudioClip Shoot;
+    public AudioClip Charging;
 
     public float Cooldown = 1.0f;
     float _cooldown;
@@ -128,12 +129,34 @@ public class Weapon : MonoBehaviour
                     Cooldown = _cooldown;
                 }
             }
+            else if (Type == WeaponType.PPC)
+            {
+                GameController.PlaySoundAtPlayer(Charging, this.transform.position);
+
+                StartCoroutine(FireDelayed());
+
+                if (owner.tag == "Player") GameController.YoureGonnaBurnAlright(Heat);
+
+                Cooldown = _cooldown;
+            }
             else if (Type == WeaponType.COUNTERMEASURE)
             {
                 StartCoroutine(FireMany());
                 Cooldown = _cooldown;
             }
         }
+    }
+
+    IEnumerator FireDelayed()
+    {
+        yield return new WaitForSeconds(3f);
+
+        GameController.PlaySoundAtPlayer(Shoot, this.transform.position);
+
+        GameObject g = GameObject.Instantiate(Projectile) as GameObject;
+        g.GetComponent<Laser>().Damage = Damage;
+        g.GetComponent<Laser>().Range = Range;
+        g.GetComponent<Laser>().Origin = this.transform;
     }
 
     // shoot missiles in a direction, no lock required
@@ -176,6 +199,7 @@ public class Weapon : MonoBehaviour
 
             GameObject g = GameObject.Instantiate(Projectile) as GameObject;
             g.transform.position = this.transform.parent.position;
+            g.GetComponent<SeekingMissile>().Damage = Damage;
             g.GetComponent<SeekingMissile>().Target = target;
 
             yield return new WaitForSeconds(FireRate);

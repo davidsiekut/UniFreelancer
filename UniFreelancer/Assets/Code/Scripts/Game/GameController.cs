@@ -84,7 +84,7 @@ public class GameController : ScriptableObject
         Player = GameObject.FindWithTag("Player");
         HUDSound = GameObject.FindWithTag("HUD").audio;
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 50; i++)
         {
             float x = Random.Range(-1000f, 1000f);
             float y = Random.Range(-1000f, 1000f);
